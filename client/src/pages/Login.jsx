@@ -24,11 +24,9 @@ function Login() {
     async function onFormSubmit(e) {
         e.preventDefault();
         const res = await dispatch(authLogin(loginData));
-        console.log(res);
-        // if (res.payload.success) {
-        //     navigate("/")
-        //     await dispatch(getAuthProfile(res.payload.data._id))
-        // }
+        if (res.payload.success) {
+            navigate("/")
+        }
     }
     return (
         <div className=' w-[100%] h-[100vh] bg-primary flex items-center justify-center'>

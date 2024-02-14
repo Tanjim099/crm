@@ -12,7 +12,7 @@ function EmployeeModel() {
         phone: "",
         password: "",
     })
-    console.log(employeeData)
+    // console.log(employeeData)
     function handleInpute(e) {
         const { name, value } = e.target;
         setEmployeeData((prev) => ({
@@ -32,7 +32,7 @@ function EmployeeModel() {
                 password: "",
             })
         }
-        console.log(res)
+        // console.log(res)
     }
     return (
         <dialog id="my_modal_1" className="modal rounded-none">

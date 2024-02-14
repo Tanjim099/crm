@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import MenuList from './MenuList';
 
 function MenuItem({ menuItem, isActive, setIsActive }) {
-    console.log(isActive);
+    // console.log(isActive);
     // to={menuItem.path}
     return (
         <li className='  px-2 py-1 rounded-sm text-sm' onClick={() => setIsActive(menuItem.id)} style={{ backgroundColor: isActive == menuItem.id ? "red" : "transparent" }}>

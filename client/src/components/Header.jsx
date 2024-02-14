@@ -4,23 +4,22 @@ import { Menu, Popover, Transition } from '@headlessui/react';
 import classNames from 'classnames'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAuthProfile } from '../redux/slices/authSlice';
-import { getUserProfile } from '../redux/slices/userSlice';
+import { authLogout, getAuthProfile } from '../redux/slices/authSlice';
+import { getUserProfile, userLogout } from '../redux/slices/userSlice';
 
 function Header() {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const { authData } = useSelector((state) => state.auth);
-    console.log(authData);
     const getAuthId = localStorage.getItem("authId");
     const authId = JSON.parse(getAuthId)
-    console.log(authId)
+    // console.log(authId)
 
     const { userData } = useSelector((state) => state.user);
     console.log(userData);
     const getUserId = localStorage.getItem("userId");
     const userId = JSON.parse(getUserId)
-    console.log(userId)
+    // console.log(userId)
 
     async function fetchAuthData() {
         await dispatch(getAuthProfile(authId))
@@ -34,10 +33,26 @@ function Header() {
         if (authId) {
             fetchAuthData();
         }
-        else {
+        else if (userId) {
             fetchUserData()
         }
     }, [])
+
+
+    async function onLogout() {
+        if (authId) {
+            const res = await dispatch(authLogout());
+            if (res.payload.success) {
+                navigate("/login")
+            }
+        }
+        else if (userId) {
+            const res = await dispatch(userLogout());
+            if (res.payload.success) {
+                navigate("/employee-login")
+            }
+        }
+    }
     return (
         <div className='bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between'>
             <div className=' relative'>
@@ -129,21 +144,16 @@ function Header() {
                     >
                         <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-sm shadow-md p-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
-                                {/* {({ active }) => (
+                                {({ active }) => (
                                     <div
-                                        onClick={() => navigate('/profile')}
                                         className={classNames(
                                             active && 'bg-gray-100',
                                             'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'
                                         )}
                                     >
-                                        Your Profile
+                                        {authData ? authData.name : userData.name}
                                     </div>
-                                )} */}
-
-                                {authData ? (
-                                    <NavLink className=" hover:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200">{authData.name}</NavLink>) :
-                                    (<NavLink className=" hover:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200">{userData.name}</NavLink>)}
+                                )}
                             </Menu.Item>
                             <Menu.Item>
                                 {({ active }) => (
@@ -166,7 +176,7 @@ function Header() {
                                             'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'
                                         )}
                                     >
-                                        Sign out
+                                        <button onClick={onLogout}>Sign out</button>
                                     </div>
                                 )}
                             </Menu.Item>

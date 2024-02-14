@@ -18,9 +18,19 @@ export const addUser = createAsyncThunk("/add", async (data) => {
 });
 
 
-export const userLogin = createAsyncThunk("/login", async (data) => {
+export const userLogin = createAsyncThunk("/user-login", async (data) => {
     try {
         const res = axiosInstance.post("/user/employee-login", data);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
+});
+
+
+export const userLogout = createAsyncThunk("/user-logout", async () => {
+    try {
+        const res = axiosInstance.get("/user/user-logout");
         return (await res).data;
     } catch (error) {
         console.log(error.message)
@@ -28,7 +38,7 @@ export const userLogin = createAsyncThunk("/login", async (data) => {
 })
 
 
-export const getUserProfile = createAsyncThunk("/get-profile", async (userid) => {
+export const getUserProfile = createAsyncThunk("/get-user-profile", async (userid) => {
     console.log(userid);
     try {
         const res = axiosInstance.get(`/user/profile/${userid}`);
@@ -54,16 +64,21 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllUsers.fulfilled, (state, action) => {
-                console.log(action)
+                // console.log(action)
                 state.allUserData = action?.payload?.data;
             })
             .addCase(userLogin.fulfilled, (state, action) => {
-                console.log(action)
+                // console.log(action)
                 state.isLoggedIn = localStorage.setItem("isLoggedIn", JSON.stringify(true)) || false;
-                state.userId = localStorage.setItem("userId", JSON.stringify(action?.payload?.data?.user?._id)) || "";
+                state.userId = localStorage.setItem("userId", JSON.stringify(action?.payload?.data?.user?._id) || null);
+            })
+            .addCase(userLogout.fulfilled, (state, action) => {
+                // console.log(action)
+                state.isLoggedIn = localStorage.removeItem("isLoggedIn") || false;
+                state.userId = localStorage.removeItem("userId") || null;
             })
             .addCase(getUserProfile.fulfilled, (state, action) => {
-                console.log(action);
+                // console.log(action);
                 state.userData = action?.payload?.data;
             })
     }

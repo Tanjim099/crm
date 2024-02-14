@@ -41,7 +41,6 @@ export const userLogin = async (req, res, next) => {
         }
 
         const userExists = await userModel.findOne({ email });
-        console.log(userExists.password);
         if (!userExists) {
             return next(new ApiError(400, "Email already exist"));
         }
@@ -68,6 +67,22 @@ export const userLogin = async (req, res, next) => {
     }
 }
 
+
+export const userLogout = async (req, res, next) => {
+    try {
+        res.cookie("token", null, {
+            secure: true,
+            maxAge: 0,
+            httpOnly: true
+        });
+        res.status(201).json(
+            new ApiResponse(200, null, "Logout Successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to Logout", error));
+    }
+}
 
 export const getUserProfile = async (req, res, next) => {
     try {

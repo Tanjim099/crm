@@ -6,7 +6,6 @@ import Jwt from "jsonwebtoken";
 
 export const register = async (req, res, next) => {
     try {
-        console.log(req.body);
         const { name, email, password } = req.body;
         // console.log(req.body);
         console.log("getting requiset");
@@ -45,7 +44,6 @@ export const login = async (req, res, next) => {
         }
 
         const userExists = await authModel.findOne({ email });
-        console.log(userExists.password);
         if (!userExists) {
             return next(new ApiError(400, "Email already exist"));
         }
@@ -59,7 +57,7 @@ export const login = async (req, res, next) => {
         const token = Jwt.sign({ userId: userExists._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
         res.cookie("token", token, { httpOnly: false });
         const data = {
-            user: userExists,
+            auth: userExists,
             token
         }
 
@@ -69,6 +67,22 @@ export const login = async (req, res, next) => {
     } catch (error) {
         console.log(error);
         return next(new ApiError(501, "Failed to login", error));
+    }
+}
+
+export const authLogout = async (req, res, next) => {
+    try {
+        res.cookie("token", null, {
+            secure: true,
+            maxAge: 0,
+            httpOnly: true
+        });
+        res.status(201).json(
+            new ApiResponse(200, null, "Logout Successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to Logout", error));
     }
 }
 

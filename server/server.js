@@ -6,6 +6,7 @@ import dbConnection from "./config/dbConnection.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
+import leadRoutes from "./routes/leadRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/lead", leadRoutes);
 
 dbConnection();
 

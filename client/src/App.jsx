@@ -9,16 +9,35 @@ import Home from './pages/Home'
 import Leads from './pages/Leads'
 import Employees from './pages/Employees'
 import EmployeeLogin from './pages/EmployeeLogin'
+import RequireAuth from './components/auth/RequireAuth'
+import Denied from './pages/Denied'
 
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<Home />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/employee-login' element={<EmployeeLogin />} />
+      <Route path='/denied' element={<Denied />} />
+      {/* <Route element={<RequireAuth allowedRoles={["Admin", "Manager"]} />}> */}
+      <Route path='/' element={<Home />} />
       <Route path='/leads' element={<Leads />} />
       <Route path='/employees' element={<Employees />} />
+      {/* </Route> */}
+
+      {/* <Route element={<RequireAuth allowedRoles={["Admin", "Hr"]} />}> */}
+      {/* <Route path='/' element={<Home />} /> */}
+      {/* <Route path='/employees' element={<Employees />} /> */}
+      {/* </Route> */}
+
+      {/* <Route element={<RequireAuth allowedRoles={["Admin", "Sales-Executive"]} />}> */}
+      {/* <Route path='/' element={<Home />} /> */}
+      {/* <Route path='/leads' element={<Leads />} /> */}
+      {/* </Route> */}
+
+      {/* <Route element={<RequireAuth allowedRoles={["Admin", "Intern"]} />}> */}
+      {/* <Route path='/leads' element={<Leads />} /> */}
+      {/* </Route> */}
     </Routes>
   )
 }

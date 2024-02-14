@@ -19,8 +19,8 @@ const userShcema = new Schema({
     },
     role: {
         type: String,
-        default: "Admin",
-        enum: ["Admin", "Hr", "Manager", "Team Leader", "Sales executive", "Intern"]
+        default: "Sales-executive",
+        enum: ["Admin", "Hr", "Manager", "Team-Leader", "Sales-executive", "Intern"]
     },
     status: {
         type: String,

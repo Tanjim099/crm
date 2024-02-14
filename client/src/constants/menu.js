@@ -44,6 +44,12 @@ const menu = [
         label: 'Messages',
         path: '/messages',
         icon: HiOutlineAnnotation
+    },
+    {
+        id: 9,
+        label: 'Leave',
+        path: '/leave',
+        icon: HiOutlineAnnotation
     }
 ]
 
@@ -62,10 +68,61 @@ export const managerMenu = [
         icon: HiOutlineCube,
     },
     {
-        id: 5,
+        id: 2,
         label: 'Employees',
         path: '/employees',
         icon: HiOutlineShoppingCart
+    },
+    {
+        id: 9,
+        label: 'Leave',
+        path: '/leave',
+        icon: HiOutlineAnnotation
+    }
+]
+
+export const hrMenu = [
+    {
+        id: 1,
+        label: 'Dashboard',
+        path: '/',
+        icon: HiOutlineViewGrid
+    },
+    {
+        id: 2,
+        label: 'Employees',
+        path: '/employees',
+        icon: HiOutlineShoppingCart
+    },
+    {
+        id: 9,
+        label: 'Leave',
+        path: '/leave',
+        icon: HiOutlineAnnotation
+    }
+]
+
+export const saleExecutiveMenu = [
+    {
+        id: 1,
+        label: 'Dashboard',
+        path: '/',
+        icon: HiOutlineViewGrid
+    },
+    {
+        id: 2,
+        label: 'Leads',
+        path: '/leads',
+        icon: HiOutlineCube,
+    },
+]
+
+export const internMenu = [
+    {
+        id: 1,
+        label: 'Leads',
+        path: '/leads',
+        icon: HiOutlineCube,
     },
 ]
 

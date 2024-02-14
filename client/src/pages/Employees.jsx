@@ -5,6 +5,7 @@ import { MdOutlineModeEditOutline } from "react-icons/md";
 import EmployeeModel from '../components/EmployeeModel';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllUsers } from '../redux/slices/userSlice';
+import dateFormeter from '../helper/dateFormeter';
 
 
 function Employees() {
@@ -67,6 +68,16 @@ function Employees() {
                                             <th
                                                 scope="col"
                                                 className="border-r px-6 py-4 dark:border-neutral-500">
+                                                Registered Date
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                Salary
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="border-r px-6 py-4 dark:border-neutral-500">
                                                 Status
                                             </th>
                                             <th
@@ -76,7 +87,7 @@ function Employees() {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className='font-medium'>
                                         {allUserData && allUserData.map((user, i) => (
                                             <tr key={i} className="border-b dark:border-neutral-500">
                                                 <td
@@ -103,6 +114,12 @@ function Employees() {
                                                         className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
                                                         style={{ backgroundImage: 'url("https://source.unsplash.com/80x80?face")' }}
                                                     ></div>
+                                                </td>
+                                                <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                    {dateFormeter(user.createdAt)}
+                                                </td>
+                                                <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                    24000
                                                 </td>
                                                 <td
                                                     className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
