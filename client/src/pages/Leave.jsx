@@ -2,9 +2,11 @@ import React from 'react'
 import Layout from '../components/Layout'
 import { FaRegTrashAlt, FaPlus } from "react-icons/fa";
 import LeaveModel from '../components/LeaveModel';
+import { useDispatch } from 'react-redux';
 
 function Leave() {
-    const allUserData = []
+    const dispatch = useDispatch();
+    const allUserData = [];
     return (
         <Layout>
             <div className='bg-white p-4 flex flex-col gap-3 relative'>

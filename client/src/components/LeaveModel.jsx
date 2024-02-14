@@ -1,7 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { ApplyLeave } from '../redux/slices/leaveSlice';
+import { useDispatch } from 'react-redux';
 
 function LeaveModel() {
+    const dispatch = useDispatch();
+    const getAuthId = localStorage.getItem("authId");
+    const authId = JSON.parse(getAuthId)
+    const getUserId = localStorage.getItem("userId");
+    const userId = JSON.parse(getUserId)
+    const [uId, setUId] = useState("");
+    function fun() {
+        if (authId) {
+            setUId(authId)
+        }
+        else if (userId) {
+            setUId(userId)
+        }
+    }
+    useEffect(() => {
+        fun()
+    }, [])
     const [leaveData, setLeaveData] = useState({
+        user: uId,
         subject: "",
         from: "",
         to: ""
@@ -11,15 +31,27 @@ function LeaveModel() {
         const { name, value } = e.target;
         setLeaveData((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
+            user: uId
         }))
     }
-    console.log(leaveData)
+    async function onSubmitForm(e) {
+        e.preventDefault();
+        const res = await dispatch(ApplyLeave(leaveData));
+        if (res?.payload?.success) {
+            setLeaveData({
+                user: uId,
+                subject: "",
+                from: "",
+                to: ""
+            })
+        }
+    }
     return (
         <dialog id="my_modal_1" className="modal rounded-none">
             <div className="modal-box rounded-none">
                 <h3 className="font-bold text-center text-lg">Apply New Leave</h3>
-                <form className='flex flex-col gap-2'>
+                <form onSubmit={onSubmitForm} className='flex flex-col gap-2'>
                     <div className='flex flex-col'>
                         <label htmlFor="subject">Subject</label>
                         <input
@@ -30,6 +62,7 @@ function LeaveModel() {
                             className=' p-1.5 border border-black rounded-sm shadow-md'
                             onChange={handleChange}
                             value={leaveData.subject}
+                            required
                         />
                     </div>
                     <div className='flex flex-col'>
@@ -42,6 +75,7 @@ function LeaveModel() {
                             className=' p-1.5 border border-black rounded-sm shadow-md'
                             onChange={handleChange}
                             value={leaveData.from}
+                            required
                         />
                     </div>
                     <div className='flex flex-col'>
@@ -54,6 +88,7 @@ function LeaveModel() {
                             className=' p-1.5 border border-black rounded-sm shadow-md'
                             onChange={handleChange}
                             value={leaveData.to}
+                            required
                         />
                     </div>
                     <div className=' flex items-center justify-between'>

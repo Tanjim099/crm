@@ -95,7 +95,7 @@ export const hrMenu = [
         icon: HiOutlineShoppingCart
     },
     {
-        id: 9,
+        id: 3,
         label: 'Leave',
         path: '/leave',
         icon: HiOutlineAnnotation
@@ -115,6 +115,12 @@ export const saleExecutiveMenu = [
         path: '/leads',
         icon: HiOutlineCube,
     },
+    {
+        id: 3,
+        label: 'Leave',
+        path: '/leave',
+        icon: HiOutlineAnnotation
+    }
 ]
 
 export const internMenu = [
@@ -124,6 +130,12 @@ export const internMenu = [
         path: '/leads',
         icon: HiOutlineCube,
     },
+    {
+        id: 2,
+        label: 'Leave',
+        path: '/leave',
+        icon: HiOutlineAnnotation
+    }
 ]
 
 export default menu;
