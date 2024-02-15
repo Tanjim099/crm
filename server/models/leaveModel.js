@@ -18,6 +18,11 @@ const leaveSchema = new Schema({
         type: String,
         required: true
     },
+    responsed: {
+        type: String,
+        default: "Pending",
+        enum: ["Pending", "Okay", "Not"]
+    }
 });
 
 const leaveModel = mongoose.model("Leaves", leaveSchema);
