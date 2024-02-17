@@ -10,8 +10,9 @@ import dateFormeter from '../helper/dateFormeter';
 
 function Employees() {
     const dispatch = useDispatch();
-
+    const [updatedData, setUpdatedData] = useState(null);
     const { allUserData } = useSelector((state) => state.user);
+    const [flag, setFlag] = useState(false);
     console.log(allUserData)
     async function fetchUserData() {
         await dispatch(getAllUsers())
@@ -19,13 +20,22 @@ function Employees() {
 
     useEffect(() => {
         fetchUserData()
-    }, []);
+    }, [flag]);
+
+    function handleEditBtn(data) {
+        document.getElementById('my_modal_1').showModal()
+        setUpdatedData(data);
+    }
+    function handleAddNewBtn() {
+        document.getElementById('my_modal_1').showModal()
+        setUpdatedData(null);
+    }
     return (
         <Layout>
             <div className='bg-white p-4 flex flex-col gap-3 relative'>
                 <div>
-                    <button className=' bg-green-800 text-white px-4 py-1 flex items-center gap-1' onClick={() => document.getElementById('my_modal_1').showModal()}><FaPlus /> Add Emplayee</button>
-                    <EmployeeModel />
+                    <button className=' bg-green-800 text-white px-4 py-1 flex items-center gap-1' onClick={handleAddNewBtn}><FaPlus /> Add Emplayee</button>
+                    <EmployeeModel data={updatedData} flag={flag} setFlag={setFlag} />
                 </div>
                 <div className="flex flex-col">
                     <div className="overflow-x-auto">
@@ -33,7 +43,7 @@ function Employees() {
                             <div className="overflow-hidden">
                                 <table
                                     className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
-                                    <thead className="border-b font-medium bg-teal-100">
+                                    <thead className="border-b font-medium bg-[#0ea5e9] text-white">
                                         <tr>
                                             <th
                                                 scope="col"
@@ -127,7 +137,7 @@ function Employees() {
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                                                     <div className='flex gap-2 items-center justify-center'>
-                                                        <button className=' bg-green-500 px-2 py-1 text-white rounded-md'>
+                                                        <button className=' bg-green-500 px-2 py-1 text-white rounded-md' onClick={() => handleEditBtn(user)}>
                                                             <MdOutlineModeEditOutline />
                                                         </button>
                                                         <button className=' bg-red-500 px-2 py-1 text-white rounded-md'>

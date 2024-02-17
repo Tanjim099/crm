@@ -1,18 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaPlus } from "react-icons/fa";
 import RoleModel from './RoleModel';
 import { useDispatch } from 'react-redux';
-import { addUser } from '../redux/slices/userSlice';
+import { addUser, userUpdate } from '../redux/slices/userSlice';
 
-function EmployeeModel() {
+function EmployeeModel({ data, flag, setFlag }) {
+    console.log(data);
     const dispatch = useDispatch();
+    const [roleData, setRoleData] = useState(["Admin", "Hr", "Manager", "Team-Leader", "Sales-executive", "Intern"])
     const [employeeData, setEmployeeData] = useState({
         name: "",
         email: "",
         phone: "",
         password: "",
     })
-    // console.log(employeeData)
+    console.log(employeeData)
+    useEffect(() => {
+        if (data) {
+            console.log(data)
+            setEmployeeData((prev) => ({
+                ...prev,
+                name: data?.name,
+                email: data?.email,
+                phone: data?.phone,
+            }))
+            for (let i = 0; i < roleData.length; i++) {
+                if (roleData[i] == data.role) {
+                    let temp = roleData[0]
+                    roleData[0] = roleData[i];
+                    roleData[i] = temp;
+                    break;
+                }
+            }
+            console.log(roleData)
+        }
+        else {
+            console.log(data)
+            setEmployeeData(() => ({
+                name: "",
+                email: "",
+                phone: "",
+                password: "",
+            }))
+            setRoleData(["Admin", "Hr", "Manager", "Team Leader", "Sales Executive", "Intern"]);
+        }
+    }, [data])
     function handleInpute(e) {
         const { name, value } = e.target;
         setEmployeeData((prev) => ({
@@ -23,14 +55,21 @@ function EmployeeModel() {
 
     async function onSubmitForm(e) {
         e.preventDefault();
-        const res = await dispatch(addUser(employeeData));
-        if (res?.payload?.success) {
-            setEmployeeData({
-                name: "",
-                email: "",
-                phone: "",
-                password: "",
-            })
+        if (data) {
+            const res = await dispatch(userUpdate([data._id, employeeData]));
+            if (res?.payload?.success) setFlag(!flag)
+        }
+        else {
+            const res = await dispatch(addUser(employeeData));
+            if (res?.payload?.success) {
+                setFlag(!flag)
+                setEmployeeData({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    password: "",
+                })
+            }
         }
         // console.log(res)
     }
@@ -69,7 +108,7 @@ function EmployeeModel() {
                             type="number"
                             name='phone'
                             id='phone'
-                            placeholder='Enter Email...'
+                            placeholder='Enter Phone...'
                             className=' p-1.5 border border-black rounded-sm shadow-md'
                             value={employeeData.phone}
                             onChange={handleInpute}
@@ -95,21 +134,20 @@ function EmployeeModel() {
                             <RoleModel />
                         </div>
                         <select onChange={handleInpute} name='role' id='role' className=' p-1.5 border border-black rounded-sm shadow-md'>
-                            <option value={employeeData.role}>Admin</option>
-                            <option value={employeeData.role}>Manager</option>
-                            <option value={employeeData.role}>Team Leader</option>
-                            <option value={employeeData.role}>Sales executive</option>
-                            <option value={employeeData.role}>Intern</option>
+                            {roleData && roleData.map((role, i) => (
+                                <option key={i} value={role}>{role}</option>
+                            ))}
                         </select>
 
                     </div>
                     <div>
-                        <button type="submit" className='w-[100%] bg-green-600 text-white p-1.5'>Add</button>
+                        <button type="submit" className='w-[100%] bg-green-600 text-white p-1.5'>{data ? "Update" : "Add"}</button>
                     </div>
                 </form>
                 <div className="modal-action">
                     <form method="dialog">
                         {/* if there is a button in form, it will close the modal */}
+                        {/* onClick={() => setFlag(!flag)} */}
                         <button className="">Close</button>
                     </form>
                 </div>

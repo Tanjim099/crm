@@ -5,9 +5,9 @@ const initialState = {
     leads: []
 };
 
-export const getAllLeads = createAsyncThunk("/get-all/leads", async () => {
+export const getAllLeads = createAsyncThunk("/get-all/leads", async (data) => {
     try {
-        const res = axiosInstance.get("lead/get-all");
+        const res = axiosInstance.get(`lead/get-all?page=${data.page}&limit=${data.limit}`);
         return (await res).data;
     } catch (error) {
         console.log(error.message)

@@ -57,6 +57,15 @@ export const getAllUsers = createAsyncThunk("/get-all", async () => {
     }
 })
 
+export const userUpdate = createAsyncThunk("/update", async (data) => {
+    try {
+        const res = axiosInstance.put(`/user/update/${data[0]}`, data[1]);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
 const userSlice = createSlice({
     name: "user",
     initialState,

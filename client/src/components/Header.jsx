@@ -16,7 +16,7 @@ function Header() {
     // console.log(authId)
 
     const { userData } = useSelector((state) => state.user);
-    console.log(userData);
+    // console.log(userData);
     const getUserId = localStorage.getItem("userId");
     const userId = JSON.parse(getUserId)
     // console.log(userId)

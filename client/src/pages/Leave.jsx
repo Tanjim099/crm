@@ -1,12 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import { FaRegTrashAlt, FaPlus } from "react-icons/fa";
 import LeaveModel from '../components/LeaveModel';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllLeaves, getLeaveDataByUserID } from '../redux/slices/leaveSlice';
+import dateFormeter from '../helper/dateFormeter';
+import { MdOutlineModeEditOutline } from "react-icons/md";
+
 
 function Leave() {
     const dispatch = useDispatch();
-    const allUserData = [];
+    const [leaveResponsedData, setLeaveResponsedData] = useState(["Pending", "Okay", "Not"]);
+    //======================
+    const { authData } = useSelector((state) => state.auth);
+    const getAuthId = localStorage.getItem("authId");
+    const authId = JSON.parse(getAuthId)
+    // console.log(authData)
+
+    // const { userData } = useSelector((state) => state.user);
+    const getUserId = localStorage.getItem("userId");
+    const userId = JSON.parse(getUserId)
+    // console.log(userId)
+    //====================
+    const { leaveData } = useSelector((state) => state.leave);
+    // console.log(leaveData);
+    async function fetchAllLeavesData() {
+        await dispatch(getAllLeaves());
+    }
+    async function fetchLeaveDataByUserID() {
+        await dispatch(getLeaveDataByUserID(userId));
+    }
+    useEffect(() => {
+        if (authId) {
+            fetchAllLeavesData();
+        }
+        else if (userId) {
+            fetchLeaveDataByUserID()
+        }
+    }, []);
     return (
         <Layout>
             <div className='bg-white p-4 flex flex-col gap-3 relative'>
@@ -50,6 +81,11 @@ function Leave() {
                                             <th
                                                 scope="col"
                                                 className="border-r px-6 py-4 dark:border-neutral-500">
+                                                Message
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="border-r px-6 py-4 dark:border-neutral-500">
                                                 From
                                             </th>
                                             <th
@@ -60,12 +96,17 @@ function Leave() {
                                             <th
                                                 scope="col"
                                                 className="border-r px-6 py-4 dark:border-neutral-500">
+                                                Responsed
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="border-r px-6 py-4 dark:border-neutral-500">
                                                 Actions
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody className='font-medium'>
-                                        {allUserData && allUserData.map((user, i) => (
+                                        {leaveData && leaveData.map((leave, i) => (
                                             <tr key={i} className="border-b dark:border-neutral-500">
                                                 <td
                                                     className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
@@ -73,34 +114,44 @@ function Leave() {
                                                 </td>
                                                 <td
                                                     className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    {user.name}
+                                                    {leave?.user?.name}
                                                 </td>
                                                 <td
                                                     className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    {user.email}
+                                                    {leave?.user?.email}
                                                 </td>
                                                 <td
                                                     className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    {user.phone}
+                                                    {leave?.user?.phone}
+                                                </td>
+                                                <td className="whitespace-nowrap border-r px-2 py-4 dark:border-neutral-500">
+                                                    <div className="w-25 h-auto bg-transparent resize-none overflow-auto ">
+                                                        {leave?.subject}
+                                                    </div>
+                                                </td>
+                                                <td className="whitespace-nowrap border-r pl-1 py-0 dark:border-neutral-500">
+                                                    <textarea
+                                                        value={leave?.message}
+                                                        readOnly
+                                                        className="w-30 h-auto bg-transparent resize-none"
+                                                    >
+
+                                                    </textarea>
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    <span className='bg-green-600 text-white px-2 py-1 font-bold rounded-sm'>{user.role}</span>
+                                                    {leave?.from}
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    <div
-                                                        className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
-                                                        style={{ backgroundImage: 'url("https://source.unsplash.com/80x80?face")' }}
-                                                    ></div>
+                                                    {leave?.to}
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    {dateFormeter(user.createdAt)}
-                                                </td>
-                                                <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    24000
-                                                </td>
-                                                <td
-                                                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    <span className='bg-green-600 text-white px-2 py-1 font-bold rounded-sm'>Active</span>
+                                                    {authData && authData.role == "Admin" ? (
+                                                        <select name="" id="">
+                                                            {leaveResponsedData.map((data, i) => (
+                                                                <option key={i} value={data}>{data}</option>
+                                                            ))}
+                                                        </select>
+                                                    ) : (leave?.responsed)}
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
                                                     <div className='flex gap-2 items-center justify-center'>

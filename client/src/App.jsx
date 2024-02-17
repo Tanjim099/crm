@@ -12,6 +12,7 @@ import EmployeeLogin from './pages/EmployeeLogin'
 import RequireAuth from './components/auth/RequireAuth'
 import Denied from './pages/Denied'
 import Leave from './pages/Leave'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   return (
@@ -21,8 +22,8 @@ function App() {
       <Route path='/employee-login' element={<EmployeeLogin />} />
       <Route path='/denied' element={<Denied />} />
       {/* <Route element={<RequireAuth allowedRoles={["Admin", "Manager"]} />}> */}
-      <Route path='/' element={<Home />} />
-      <Route path='/leads' element={<Leads />} />
+      <Route path='/' element={<Dashboard />} />
+      <Route path='/leads/page/:page' element={<Leads />} />
       <Route path='/leave' element={<Leave />} />
       <Route path='/employees' element={<Employees />} />
       {/* </Route> */}

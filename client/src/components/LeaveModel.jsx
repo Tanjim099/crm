@@ -23,6 +23,7 @@ function LeaveModel() {
     const [leaveData, setLeaveData] = useState({
         user: uId,
         subject: "",
+        message: "",
         from: "",
         to: ""
     });
@@ -42,6 +43,7 @@ function LeaveModel() {
             setLeaveData({
                 user: uId,
                 subject: "",
+                message: "",
                 from: "",
                 to: ""
             })
@@ -88,6 +90,19 @@ function LeaveModel() {
                             className=' p-1.5 border border-black rounded-sm shadow-md'
                             onChange={handleChange}
                             value={leaveData.to}
+                            required
+                        />
+                    </div>
+                    <div className='flex flex-col'>
+                        <label htmlFor="message">Message</label>
+                        <textarea
+                            type="text"
+                            name='message'
+                            id='message'
+                            placeholder='Enter Name...'
+                            className=' p-1.5 border border-black rounded-sm shadow-md'
+                            onChange={handleChange}
+                            value={leaveData.message}
                             required
                         />
                     </div>

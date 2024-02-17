@@ -18,7 +18,7 @@ const menu = [
     {
         id: 2,
         label: 'Leads',
-        path: '/leads',
+        path: '/leads/page/1',
         icon: HiOutlineCube,
     },
     {
@@ -64,7 +64,7 @@ export const managerMenu = [
     {
         id: 2,
         label: 'Leads',
-        path: '/leads',
+        path: '/leads/page/1',
         icon: HiOutlineCube,
     },
     {
@@ -112,7 +112,7 @@ export const saleExecutiveMenu = [
     {
         id: 2,
         label: 'Leads',
-        path: '/leads',
+        path: '/leads/page/1',
         icon: HiOutlineCube,
     },
     {

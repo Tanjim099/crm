@@ -7,13 +7,17 @@ import { getAllLeads, getLeadsByUserId, updateLeadAssign, updateLeadStatus } fro
 import { getAllUsers, getUserProfile } from '../redux/slices/userSlice';
 import dateFormeter from '../helper/dateFormeter';
 import { getAuthProfile } from '../redux/slices/authSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Leads() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [status, setStatus] = useState(["Not Responed", "Pending", "Done"]);
     const [selectId, setSelectId] = useState([]);
     const [leadsData, setLeadsData] = useState([]);
-    console.log(leadsData)
+    const [limit, setLimit] = useState(15);
+    const { page } = useParams();
+    const [currentPage, setCurrentPage] = useState(parseInt(page));
     //==========================
 
     const { authData } = useSelector((state) => state.auth);
@@ -46,7 +50,7 @@ function Leads() {
     //==========================
     const { leads } = useSelector((state) => state.lead);
     async function fetchLeadData() {
-        const res = await dispatch(getAllLeads());
+        const res = await dispatch(getAllLeads({ page: page, limit: limit }));
         setLeadsData(res?.payload?.data);
     };
 
@@ -63,7 +67,7 @@ function Leads() {
     async function fetchUserData() {
         await dispatch(getAllUsers())
     }
-    console.log("authData", authData)
+    // console.log("authData", authData)
     useEffect(() => {
         fetchUserData();
         if (userId) {
@@ -72,7 +76,7 @@ function Leads() {
         if (authId) {
             fetchLeadData();
         }
-    }, []);
+    }, [page]);
 
     async function handleChange(lid, value) {
         await dispatch(updateLeadStatus([lid, value]))
@@ -88,6 +92,21 @@ function Leads() {
     async function handleAssignChange(value) {
         await dispatch(updateLeadAssign([selectId, value]));
     }
+
+    //pagination start
+    async function handleNextPage() {
+        // setCurrentPage((prev) => prev + 1);
+        const nextPage = parseInt(page) + 1;
+        await dispatch(getAllLeads({ page: nextPage, limit: limit }));
+        navigate(`/leads/page/${nextPage}`)
+    }
+    async function handlePrevPage() {
+        // setCurrentPage((prev) => prev - 1);
+        const prevPage = parseInt(page) - 1;
+        await dispatch(getAllLeads({ page: prevPage, limit: limit }));
+        navigate(`/leads/page/${prevPage}`)
+    }
+    //pagination end
     return (
         <Layout>
             <div className='w-100 bg-white p-4 flex flex-col gap-3 relative' >
@@ -107,13 +126,8 @@ function Leads() {
                 <div className="overflow-x-auto">
                     <table className="min-w-full border text-center text-sm font-light dark:border-neutral-500">
                         {/* head */}
-                        <thead className="border-b font-medium bg-teal-100">
+                        <thead className="border-b font-medium bg-[#0ea5e9] text-white">
                             <tr >
-                                {/* <th>
-                                    <label>
-                                        <input type="checkbox" className="checkbox" />
-                                    </label>
-                                </th> */}
                                 <th scope="col"
                                     className="border-r px-6 py-4 dark:border-neutral-500">Mark</th>
                                 <th scope="col"
@@ -139,7 +153,7 @@ function Leads() {
                         <tbody className="border-b font-medium bg-white">
                             {/* row 1 */}
                             {
-                                leadsData && leadsData.map((lead, i) => (
+                                leads && leads.map((lead, i) => (
                                     <tr key={i} className="border-b dark:border-neutral-500 even:bg-slate-100">
                                         <th className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
                                             <label>
@@ -203,6 +217,14 @@ function Leads() {
 
                         </tbody>
                     </table>
+                    <div className=' flex items-center justify-end mt-2'>
+                        <div className="join grid grid-cols-3 gap-2">
+                            <button className="join-item btn-outline border p-1 hover:bg-green-800" onClick={handlePrevPage} disabled={page == 1}>Prev</button>
+                            {/* <input type="number" className=" w-10 border p-1" value={1} readOnly /> */}
+                            <span className='join-item btn-outline border p-1 text-center hover:bg-green-800'>{page}</span>
+                            <button className="join-item btn-outline border p-1 hover:bg-green-800" onClick={handleNextPage}>Next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Layout>
