@@ -27,8 +27,11 @@ export const createLead = async (req, res, next) => {
 };
 
 export const getAllLeads = async (req, res, next) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
     try {
-        const leads = await leadModel.find({}).populate("assingTo").sort({ createdAt: -1 });
+        const leads = await leadModel.find({}).populate("assingTo").skip(skip).limit(limit).sort({ createdAt: -1 });
         res.status(201).json(
             new ApiResponse(200, leads, "Fetched Leads Successfully")
         )

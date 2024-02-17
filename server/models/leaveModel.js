@@ -10,6 +10,10 @@ const leaveSchema = new Schema({
         type: String,
         required: true
     },
+    message: {
+        type: String,
+        required: true
+    },
     from: {
         type: String,
         required: true

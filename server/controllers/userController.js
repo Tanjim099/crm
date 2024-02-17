@@ -112,3 +112,29 @@ export const getAllUsers = async (req, res, next) => {
         return next(new ApiError(501, "Failed to Fetched", error));
     }
 }
+
+export const userUpdate = async (req, res, next) => {
+    const { uid } = req.params;
+    const { name, email, phone, password, role } = req.body;
+    if (!uid) {
+        return next(new ApiError(501, "User Not Found", error));
+    }
+    try {
+        const user = await userModel.findById(uid)
+        const updatedUser = await userModel.findByIdAndUpdate(uid, {
+            name: name || user.name,
+            email: email || user.email,
+            phone: phone || user.phone,
+            role: role || user.role,
+
+        }, { new: true });
+
+        res.status(201).json(
+            new ApiResponse(200, updatedUser, "User Updated Successfully")
+        );
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to Fetched", error));
+    }
+
+}
