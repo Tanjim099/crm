@@ -15,7 +15,7 @@ function Dashboard() {
                     <LeadPieChart />
                 </div>
                 <div>
-                    <RecentLead />
+                    {/* <RecentLead /> */}
                 </div>
             </div>
         </Layout>

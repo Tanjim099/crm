@@ -13,6 +13,7 @@ import RequireAuth from './components/auth/RequireAuth'
 import Denied from './pages/Denied'
 import Leave from './pages/Leave'
 import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route path='/leads/page/:page' element={<Leads />} />
       <Route path='/leave' element={<Leave />} />
       <Route path='/employees' element={<Employees />} />
+      <Route path='/profile/:uid' element={<Profile />} />
       {/* </Route> */}
 
       {/* <Route element={<RequireAuth allowedRoles={["Admin", "Hr"]} />}> */}

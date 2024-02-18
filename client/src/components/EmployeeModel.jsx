@@ -5,14 +5,16 @@ import { useDispatch } from 'react-redux';
 import { addUser, userUpdate } from '../redux/slices/userSlice';
 
 function EmployeeModel({ data, flag, setFlag }) {
-    console.log(data);
+    // console.log(data);
     const dispatch = useDispatch();
-    const [roleData, setRoleData] = useState(["Admin", "Hr", "Manager", "Team-Leader", "Sales-executive", "Intern"])
+    const [roleData, setRoleData] = useState(["Admin", "Hr", "Manager", "Team-Leader", "Sales-executive", "Intern"]);
+    const [userStatus, setUserStatus] = useState(["Actice", "Deactive"]);
     const [employeeData, setEmployeeData] = useState({
         name: "",
         email: "",
         phone: "",
         password: "",
+        salary: ""
     })
     console.log(employeeData)
     useEffect(() => {
@@ -23,6 +25,7 @@ function EmployeeModel({ data, flag, setFlag }) {
                 name: data?.name,
                 email: data?.email,
                 phone: data?.phone,
+                salary: data?.salary,
             }))
             for (let i = 0; i < roleData.length; i++) {
                 if (roleData[i] == data.role) {
@@ -32,7 +35,12 @@ function EmployeeModel({ data, flag, setFlag }) {
                     break;
                 }
             }
-            console.log(roleData)
+
+            if (data.status !== userStatus[0]) {
+                let temp = userStatus[0];
+                userStatus[0] = userStatus[1];
+                userStatus[1] = temp;
+            }
         }
         else {
             console.log(data)
@@ -41,6 +49,7 @@ function EmployeeModel({ data, flag, setFlag }) {
                 email: "",
                 phone: "",
                 password: "",
+                salary: ""
             }))
             setRoleData(["Admin", "Hr", "Manager", "Team Leader", "Sales Executive", "Intern"]);
         }
@@ -68,6 +77,7 @@ function EmployeeModel({ data, flag, setFlag }) {
                     email: "",
                     phone: "",
                     password: "",
+                    salary: ""
                 })
             }
         }
@@ -76,7 +86,7 @@ function EmployeeModel({ data, flag, setFlag }) {
     return (
         <dialog id="my_modal_1" className="modal rounded-none">
             <div className="modal-box rounded-none">
-                <h3 className="font-bold text-lg">Add New Employee</h3>
+                <h3 className="font-bold text-lg text-center">{data ? "Update User" : "Add New Employee"}</h3>
                 <form onSubmit={onSubmitForm} className='flex flex-col gap-2'>
                     <div className='flex flex-col'>
                         <label htmlFor="name" className=' font-medium'>Name</label>
@@ -117,7 +127,7 @@ function EmployeeModel({ data, flag, setFlag }) {
                     <div className='flex flex-col'>
                         <label htmlFor="password">Password</label>
                         <input
-                            ype="text"
+                            type="text"
                             name='password'
                             id='password'
                             placeholder='Enter Password...'
@@ -126,6 +136,31 @@ function EmployeeModel({ data, flag, setFlag }) {
                             onChange={handleInpute}
                         />
                     </div>
+                    <div className='flex flex-col'>
+                        <label htmlFor="salary">Salary</label>
+                        <input
+                            type="Number"
+                            name='salary'
+                            id='salary'
+                            placeholder='Enter Salary...'
+                            className=' p-1.5 border border-black rounded-sm shadow-md'
+                            value={employeeData.salary}
+                            onChange={handleInpute}
+                        />
+                    </div>
+                    {
+                        data ? (
+                            <div className='flex flex-col gap-1'>
+                                <label htmlFor="status">Status</label>
+                                <select onChange={handleInpute} name='status' id='status' className=' p-1.5 border border-black rounded-sm shadow-md'>
+                                    {userStatus && userStatus.map((s, i) => (
+                                        <option key={i} value={s}>{s}</option>
+                                    ))}
+                                </select>
+
+                            </div>
+                        ) : null
+                    }
                     <div className='flex flex-col gap-1'>
 
                         <div className='flex justify-between items-center'>
