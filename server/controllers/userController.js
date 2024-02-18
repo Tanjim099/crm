@@ -5,7 +5,7 @@ import ApiResponse from "../utils/apiResponse.js";
 import Jwt from "jsonwebtoken";
 
 export const userRegister = async (req, res, next) => {
-    const { name, email, phone, password, role } = req.body;
+    const { name, email, phone, password, role, salary } = req.body;
     if (!name || !email || !phone || !password) {
         return next(new ApiError(400, "all Fields are required"))
     }
@@ -21,6 +21,7 @@ export const userRegister = async (req, res, next) => {
             phone,
             password: hashedPassword,
             role,
+            salary
         })
 
         res.status(201).json(
@@ -103,7 +104,7 @@ export const getUserProfile = async (req, res, next) => {
 
 export const getAllUsers = async (req, res, next) => {
     try {
-        const users = await userModel.find();
+        const users = await userModel.find().sort({ createdAt: -1 });
         res.status(201).json(
             new ApiResponse(200, users, "Users Fetched Successfully")
         )
@@ -115,7 +116,7 @@ export const getAllUsers = async (req, res, next) => {
 
 export const userUpdate = async (req, res, next) => {
     const { uid } = req.params;
-    const { name, email, phone, password, role } = req.body;
+    const { name, email, phone, password, role, status, salary } = req.body;
     if (!uid) {
         return next(new ApiError(501, "User Not Found", error));
     }
@@ -126,6 +127,8 @@ export const userUpdate = async (req, res, next) => {
             email: email || user.email,
             phone: phone || user.phone,
             role: role || user.role,
+            status: status || user.status,
+            salary: salary || salary
 
         }, { new: true });
 
@@ -137,4 +140,20 @@ export const userUpdate = async (req, res, next) => {
         return next(new ApiError(501, "Failed to Fetched", error));
     }
 
+}
+
+export const userDelete = async (req, res, next) => {
+    const { uid } = req.params;
+    if (!uid) {
+        return next(new ApiError(501, "User Not Found", error));
+    }
+    try {
+        await userModel.findByIdAndDelete(uid);
+        res.status(201).json(
+            new ApiResponse(200, "User Deleted Successfully")
+        );
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to Fetched", error));
+    }
 }

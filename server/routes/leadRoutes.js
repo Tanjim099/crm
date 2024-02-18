@@ -5,7 +5,7 @@ import { isAdmin, isLoggedIn } from "../middlewares/authMiddleware.js";
 const leadRoutes = Router();
 
 leadRoutes.post("/submit", createLead);
-leadRoutes.get("/get-all", isAdmin, getAllLeads);
+leadRoutes.get("/get-all", getAllLeads);
 leadRoutes.put("/update/:lid", updateLead);
 leadRoutes.put("/update-status/:lid", updateLeadStatus);
 leadRoutes.put("/update-assign", updateLeadAssign);

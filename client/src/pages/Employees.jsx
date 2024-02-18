@@ -4,7 +4,7 @@ import { FaRegTrashAlt, FaPlus } from "react-icons/fa";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import EmployeeModel from '../components/EmployeeModel';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '../redux/slices/userSlice';
+import { getAllUsers, userDelete } from '../redux/slices/userSlice';
 import dateFormeter from '../helper/dateFormeter';
 
 
@@ -29,6 +29,16 @@ function Employees() {
     function handleAddNewBtn() {
         document.getElementById('my_modal_1').showModal()
         setUpdatedData(null);
+    }
+
+    async function onDeleteUser(uid) {
+        // alert("Are you sure to delete");
+        if (window.confirm("Are you sure you want to delete the user ?")) {
+            const res = await dispatch(userDelete(uid));
+            if (res.payload.success) {
+                setFlag(!flag)
+            }
+        }
     }
     return (
         <Layout>
@@ -140,7 +150,7 @@ function Employees() {
                                                         <button className=' bg-green-500 px-2 py-1 text-white rounded-md' onClick={() => handleEditBtn(user)}>
                                                             <MdOutlineModeEditOutline />
                                                         </button>
-                                                        <button className=' bg-red-500 px-2 py-1 text-white rounded-md'>
+                                                        <button onClick={() => onDeleteUser(user._id)} className=' bg-red-500 px-2 py-1 text-white rounded-md'>
                                                             <FaRegTrashAlt />
                                                         </button>
                                                     </div>

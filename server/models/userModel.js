@@ -22,6 +22,9 @@ const userShcema = new Schema({
         default: "Sales-executive",
         enum: ["Admin", "Hr", "Manager", "Team-Leader", "Sales-executive", "Intern"]
     },
+    salary: {
+        type: Number,
+    },
     status: {
         type: String,
         default: "Active",

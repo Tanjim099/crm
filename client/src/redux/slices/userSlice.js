@@ -64,6 +64,16 @@ export const userUpdate = createAsyncThunk("/update", async (data) => {
     } catch (error) {
         console.log(error.message)
     }
+});
+
+
+export const userDelete = createAsyncThunk("/delete", async (uid) => {
+    try {
+        const res = axiosInstance.delete(`/user/delete/${uid}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
 })
 
 const userSlice = createSlice({
