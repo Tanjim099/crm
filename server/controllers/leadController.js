@@ -111,3 +111,18 @@ export const updateLeadAssign = async (req, res, next) => {
         return next(new ApiError(501, "Failed to Updated leads Assign"))
     }
 }
+
+
+export const filterByProjectName = async (req, res, next) => {
+    const { projectName } = req.query;
+    console.log(req.query)
+    try {
+        const leads = await leadModel.find({ projectName });
+        res.status(201).json(
+            new ApiResponse(200, leads, "Leads filter Successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to Updated leads Assign"))
+    }
+}
