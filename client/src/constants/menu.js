@@ -127,7 +127,7 @@ export const internMenu = [
     {
         id: 1,
         label: 'Leads',
-        path: '/leads',
+        path: '/leads/page/1',
         icon: HiOutlineCube,
     },
     {

@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../helper/axiosInstance";
 
 const initialState = {
-    leads: []
+    leads: [],
+    filteredLeads: []
 };
 
 export const getAllLeads = createAsyncThunk("/get-all/leads", async (data) => {
@@ -49,6 +50,25 @@ export const updateLeadAssign = createAsyncThunk("/update-assign", async (data) 
     } catch (error) {
         console.log(error.message)
     }
+});
+
+
+export const filterByProjectName = createAsyncThunk("/filter/byprojectname", async (query) => {
+    try {
+        const res = axiosInstance.get(`lead/filter/by-projectname?projectName=${query}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
+export const filterByStatus = createAsyncThunk("/filter/bystatus", async (query) => {
+    try {
+        const res = axiosInstance.get(`lead/filter/by-status?status=${query}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
 })
 
 const leadSlice = createSlice({
@@ -60,6 +80,14 @@ const leadSlice = createSlice({
             .addCase(getAllLeads.fulfilled, (state, action) => {
                 console.log(action);
                 state.leads = action?.payload?.data;
+            })
+            .addCase(filterByProjectName.fulfilled, (state, action) => {
+                state.filteredLeads = action?.payload?.data;
+                console.log(action);
+            })
+            .addCase(filterByStatus.fulfilled, (state, action) => {
+                state.filteredLeads = action?.payload?.data;
+                console.log(action);
             })
     }
 })

@@ -44,7 +44,7 @@ function Sidebar() {
         <div className='w-[160px] h-[100vh] bg-black p-4 text-white'>
             <h2 className=' text-center text-2xl font-bold'>LOGO</h2>
             <div className='py-4'>
-                {<MenuList menuList={authData.role == "Admin" ? menu : (userData && userData.role == "Manager" ? managerMenu : (userData.role == "Hr" ? hrMenu : (userData.role == "Sale Executive" ? saleExecutiveMenu : internMenu)))} />}
+                {<MenuList menuList={authData.role == "Admin" ? menu : (userData && userData.role == "Manager" ? managerMenu : (userData.role == "Hr" ? hrMenu : (userData.role == "Sales executive" ? saleExecutiveMenu : internMenu)))} />}
             </div>
         </div>
     )
