@@ -42,7 +42,7 @@ function Employees() {
     }
     return (
         <Layout>
-            <div className='bg-white p-4 flex flex-col gap-3 relative'>
+            <div className='bg-white p-4 flex flex-col gap-3 relative border border-gray-200'>
                 <div>
                     <button className=' bg-green-800 text-white px-4 py-1 flex items-center gap-1' onClick={handleAddNewBtn}><FaPlus /> Add Emplayee</button>
                     <EmployeeModel data={updatedData} flag={flag} setFlag={setFlag} />

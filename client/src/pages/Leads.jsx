@@ -156,7 +156,7 @@ function Leads() {
     // lead filter by status end
     return (
         <Layout>
-            <div className='w-100 bg-white p-4 flex flex-col gap-3 relative' >
+            <div className='w-100 bg-white p-4 flex flex-col gap-3 relative border border-gray-200' >
                 <div className='flex gap-5 items-center justify-center'>
                     {authData && authData.role == "Admin" ? (
                         <div className='flex gap-2 items-center p-2 rounded shadow'>

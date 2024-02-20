@@ -41,10 +41,10 @@ function Sidebar() {
     }, [])
     // console.log("managerMenu", managerMenu)
     return (
-        <div className='w-[160px] h-[100vh] bg-black p-4 text-white'>
+        <div className='min-w-[160px] h-[100vh] bg-black p-4 text-white'>
             <h2 className=' text-center text-2xl font-bold'>LOGO</h2>
             <div className='py-4'>
-                {<MenuList menuList={authData.role == "Admin" ? menu : (userData && userData.role == "Manager" ? managerMenu : (userData.role == "Hr" ? hrMenu : (userData.role == "Sales executive" ? saleExecutiveMenu : internMenu)))} />}
+                {<MenuList menuList={authData.role == "Admin" ? menu : (userData && userData.role == "Manager" ? managerMenu : (userData.role == "Hr" ? hrMenu : (userData.role == "Sales Executive" ? saleExecutiveMenu : internMenu)))} />}
             </div>
         </div>
     )
