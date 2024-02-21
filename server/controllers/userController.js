@@ -114,7 +114,37 @@ export const getAllUsers = async (req, res, next) => {
     }
 }
 
-export const userUpdate = async (req, res, next) => {
+export const updateUserProfile = async (req, res, next) => {
+    const { uid } = req.params;
+    if (!uid) {
+        return next(new ApiError(501, "User Not Login"));
+    };
+    const { name, email, phone, linkedin, instagram, facebook, github } = req.body;
+    try {
+        const user = await userModel.findById(uid);
+        if (!user) {
+            return next(new ApiError(501, "User Not found please try again"));
+        }
+        const updatedUser = await userModel.findByIdAndUpdate(uid, {
+            name: name || user.name,
+            email: email || user.email,
+            phone: phone || user.phone,
+            linkedin: linkedin || user.linkedin,
+            instagram: instagram || user.instagram,
+            facebook: facebook || user.facebook,
+            github: github || user.github
+        }, { new: true });
+
+        res.status(201).json(
+            new ApiResponse(200, updatedUser, "User updated successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to update user"))
+    }
+}
+
+export const adminuserUpdate = async (req, res, next) => {
     const { uid } = req.params;
     const { name, email, phone, password, role, status, salary } = req.body;
     if (!uid) {

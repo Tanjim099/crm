@@ -20,7 +20,7 @@ const userShcema = new Schema({
     role: {
         type: String,
         default: "Sales-executive",
-        enum: ["Admin", "Hr", "Manager", "Team-Leader", "Sales-executive", "Intern"]
+        enum: ["Admin", "Hr", "Manager", "Team-Leader", "Sales Executive", "Intern"]
     },
     salary: {
         type: Number,
@@ -29,7 +29,19 @@ const userShcema = new Schema({
         type: String,
         default: "Active",
         enum: ["Active", "Deactive"]
-    }
+    },
+    linkedin: {
+        type: String
+    },
+    instagram: {
+        type: String
+    },
+    facebook: {
+        type: String
+    },
+    github: {
+        type: String
+    },
 }, { timestamps: true });
 
 const userModel = mongoose.model("Users", userShcema);
