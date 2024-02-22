@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import Layout from '../components/Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserProfile } from '../redux/slices/userSlice';
+import { getUserProfile, updateUserProfile } from '../redux/slices/userSlice';
 import { FaLinkedin, FaInstagramSquare, FaFacebookSquare } from "react-icons/fa";
 import { FaSquareGithub } from "react-icons/fa6";
 import { BsPersonCircle } from 'react-icons/bs';
@@ -27,6 +27,26 @@ function Profile() {
         avatar: undefined,
         previewImage: ""
     });
+
+    useEffect(() => {
+        if (userData) {
+            setUpdateData((prev) => ({
+                ...prev,
+                name: userData.name,
+                email: userData.email,
+                phone: userData.phone,
+                linkedin: userData.linkedin,
+                instagram: userData.instagram,
+                facebook: userData.facebook,
+                github: userData.github,
+                previewImage: userData.avatar?.secure_url
+            }))
+        }
+        else {
+
+        }
+        getProfile();
+    }, [])
 
     function handleImageUpload(e) {
         e.preventDefault();
@@ -54,14 +74,39 @@ function Profile() {
         }))
     }
 
-    function onFormSubmit(e) {
+    async function onFormSubmit(e) {
         e.preventDefault();
-        console.log(updateData)
+        const data = new FormData();
+        data.append("name", updateData.name);
+        data.append("email", updateData.email)
+        data.append("phone", updateData.phone)
+        data.append("linkedin", updateData.linkedin)
+        data.append("instagram", updateData.instagram)
+        data.append("facebook", updateData.facebook)
+        data.append("github", updateData.github)
+        data.append("avatar", updateData.avatar)
+        const res = await dispatch(updateUserProfile([uid, data]));
+        console.log(res)
     }
 
-    useEffect(() => {
-        getProfile();
-    }, [])
+    // useEffect(() => {
+    //     getProfile();
+    // }, []);
+
+
+    // async function handleOnUpdateProfile() {
+    //     const data = new FormData();
+    //     data.append("name", updateData.name);
+    //     data.append("email", updateData.email)
+    //     data.append("phone", updateData.phone)
+    //     data.append("linkedin", updateData.linkedin)
+    //     data.append("instagram", updateData.instagram)
+    //     data.append("facebook", updateData.facebook)
+    //     data.append("github", updateData.github)
+    //     data.append("avatar", updateData.avatar)
+    //     const res = await dispatch(updateUserProfile([uid, data]));
+    //     console.log(res)
+    // }
     return (
         <Layout>
             <div className=' flex gap-4'>
@@ -69,7 +114,7 @@ function Profile() {
                     <div className=' border border-black flex flex-col gap-4 items-center justify-center p-10 '>
                         <div className=' w-full flex items-center justify-center border-b-2 pb-4 border-black '>
                             <img
-                                src="https://st2.depositphotos.com/1006318/5909/v/450/depositphotos_59094701-stock-illustration-businessman-profile-icon.jpg"
+                                src={userData?.avatar?.secure_url || "https://st2.depositphotos.com/1006318/5909/v/450/depositphotos_59094701-stock-illustration-businessman-profile-icon.jpg"}
                                 className='w-[100px] h-[100px] rounded-full'
                                 alt="" />
                         </div>
@@ -83,10 +128,10 @@ function Profile() {
                             <h3>{userData.phone}</h3>
                         </div>
                         <div className='flex gap-3 text-xl'>
-                            <NavLink className=" text-blue-500"><FaLinkedin /></NavLink>
-                            <NavLink className=" text-[#f6574c]"><FaInstagramSquare /></NavLink>
-                            <NavLink className=" text-[#316FF6]"><FaFacebookSquare /></NavLink>
-                            <NavLink><FaSquareGithub /></NavLink>
+                            <NavLink to={userData.linkedin} className=" text-blue-500"><FaLinkedin /></NavLink>
+                            <NavLink to={userData.instagram} className=" text-[#f6574c]"><FaInstagramSquare /></NavLink>
+                            <NavLink to={userData.facebook} className=" text-[#316FF6]"><FaFacebookSquare /></NavLink>
+                            <NavLink to={userData.github}><FaSquareGithub /></NavLink>
                         </div>
                     </div>
                 </div>

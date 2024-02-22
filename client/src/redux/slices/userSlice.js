@@ -57,7 +57,16 @@ export const getAllUsers = createAsyncThunk("/get-all", async () => {
     }
 })
 
-export const userUpdate = createAsyncThunk("/update", async (data) => {
+export const AdminUserUpdate = createAsyncThunk("/admin/update", async (data) => {
+    try {
+        const res = axiosInstance.put(`/user/admin/update/${data[0]}`, data[1]);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
+});
+
+export const updateUserProfile = createAsyncThunk("/update-profile", async (data) => {
     try {
         const res = axiosInstance.put(`/user/update/${data[0]}`, data[1]);
         return (await res).data;

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { FaPlus } from "react-icons/fa";
 import RoleModel from './RoleModel';
 import { useDispatch } from 'react-redux';
-import { addUser, userUpdate } from '../redux/slices/userSlice';
+import { AdminUserUpdate, addUser } from '../redux/slices/userSlice';
 
 function EmployeeModel({ data, flag, setFlag }) {
     // console.log(data);
     const dispatch = useDispatch();
     const [roleData, setRoleData] = useState(["Admin", "Hr", "Manager", "Team-Leader", "Sales-executive", "Intern"]);
-    const [userStatus, setUserStatus] = useState(["Actice", "Deactive"]);
+    const [userStatus, setUserStatus] = useState(["Active", "Deactive"]);
     const [employeeData, setEmployeeData] = useState({
         name: "",
         email: "",
@@ -65,7 +65,7 @@ function EmployeeModel({ data, flag, setFlag }) {
     async function onSubmitForm(e) {
         e.preventDefault();
         if (data) {
-            const res = await dispatch(userUpdate([data._id, employeeData]));
+            const res = await dispatch(AdminUserUpdate([data._id, employeeData]));
             if (res?.payload?.success) setFlag(!flag)
         }
         else {

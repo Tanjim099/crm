@@ -127,7 +127,7 @@ function Header() {
                             <span className="sr-only">Open user menu</span>
                             <div
                                 className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
-                                style={{ backgroundImage: 'url("https://source.unsplash.com/80x80?face")' }}
+                                style={{ backgroundImage: `url(${authData && authData.avatar ? authData.avatar?.secure_url : userData.avatar?.secure_url || "https://source.unsplash.com/80x80?face"} )` }}
                             >
                                 <span className="sr-only">Marc Backes</span>
                             </div>

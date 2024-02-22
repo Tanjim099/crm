@@ -156,7 +156,7 @@ function Leads() {
     // lead filter by status end
     return (
         <Layout>
-            <div className='w-100 bg-white p-4 flex flex-col gap-3 relative border border-gray-200' >
+            <div className='w-100 bg-white p-4 flex flex-col gap-3 relative border border-gray-200 ' >
                 <div className='flex gap-5 items-center justify-center'>
                     {authData && authData.role == "Admin" ? (
                         <div className='flex gap-2 items-center p-2 rounded shadow'>
@@ -213,26 +213,28 @@ function Leads() {
                         {/* head */}
                         <thead className="border-b font-medium bg-[#0ea5e9] text-white">
                             <tr >
+                                {/* <th scope="col"
+                                    className="border-r px-6 py-4 dark:border-neutral-500">Mark</th> */}
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Mark</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">No.</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">No.</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Name</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Name</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Email</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Email</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Phone</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Phone</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Project Name</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Project Name</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Message</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Date</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Date</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Status</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Status</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Assigned</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Assigned</th>
                                 <th scope="col"
-                                    className="border-r px-6 py-4 dark:border-neutral-500">Action</th>
+                                    className="border-r px-3 py-4 dark:border-neutral-500">Action</th>
                             </tr>
                         </thead>
                         <tbody className="border-b font-medium bg-white">
