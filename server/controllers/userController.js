@@ -3,6 +3,7 @@ import userModel from "../models/userModel.js";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import Jwt from "jsonwebtoken";
+import uploadCloudinary from "../utils/cloudinary.js";
 
 export const userRegister = async (req, res, next) => {
     const { name, email, phone, password, role, salary } = req.body;
@@ -132,9 +133,28 @@ export const updateUserProfile = async (req, res, next) => {
             linkedin: linkedin || user.linkedin,
             instagram: instagram || user.instagram,
             facebook: facebook || user.facebook,
-            github: github || user.github
-        }, { new: true });
+            github: github || user.github,
+            avatar: {
 
+            }
+        });
+
+        if (req.file) {
+            const avatarLocalPath = req.file.path;
+            if (!avatarLocalPath) {
+                next(new ApiError(400, "Avatar file is required"));
+            }
+            const avatar = await uploadCloudinary(avatarLocalPath);
+            if (!avatar) {
+                next(new ApiError(400, "Avatar file is required"));
+            }
+
+
+            updatedUser.avatar.public_id = avatar.public_id || "DUMMY"
+            updatedUser.avatar.secure_url = avatar.secure_url || "https://res.cloudinary.com/du9jzqlpt/image/upload/v1674647316/avatar_drzgxv.jpg"
+        }
+
+        await updatedUser.save();
         res.status(201).json(
             new ApiResponse(200, updatedUser, "User updated successfully")
         )

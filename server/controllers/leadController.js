@@ -138,4 +138,21 @@ export const filterByStatus = async (req, res, next) => {
         console.log(error);
         return next(new ApiError(501, "Failed to Updated leads Assign"))
     }
+};
+
+
+export const deleteLead = async (req, res, next) => {
+    const { lid } = req.params;
+    if (!lid) {
+        return next(new ApiError(401, "Lead not available"));
+    }
+    try {
+        await leadModel.findByIdAndDelete(lid);
+        res.status(201).json(
+            new ApiResponse(200, "Lead Deleted Successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to delete leads try again"))
+    }
 }

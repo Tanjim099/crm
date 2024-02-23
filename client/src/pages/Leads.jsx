@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-import { filterByProjectName, filterByStatus, getAllLeads, getLeadsByUserId, updateLeadAssign, updateLeadStatus } from '../redux/slices/leadSlice';
+import { deleteLead, filterByProjectName, filterByStatus, getAllLeads, getLeadsByUserId, updateLeadAssign, updateLeadStatus } from '../redux/slices/leadSlice';
 import { getAllUsers, getUserProfile } from '../redux/slices/userSlice';
 import dateFormeter from '../helper/dateFormeter';
 import { getAuthProfile } from '../redux/slices/authSlice';
@@ -153,7 +153,15 @@ function Leads() {
     useEffect(() => {
         onFilterByStatus()
     }, [])
-    // lead filter by status end
+    // delete lead 
+    async function onDeleteLead(lid) {
+        if (window.confirm("Are you sure you want to delete the lead ?")) {
+            const res = await dispatch(deleteLead(lid));
+            if (res?.payload?.success) {
+                setForReload(!forReload)
+            }
+        }
+    }
     return (
         <Layout>
             <div className='w-100 bg-white p-4 flex flex-col gap-3 relative border border-gray-200 ' >
@@ -239,7 +247,7 @@ function Leads() {
                         </thead>
                         <tbody className="border-b font-medium bg-white">
                             {/* row 1 */}
-                            {filteredLeads.length > 0 ? filteredLeads.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} />) : leadsData?.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} />)}
+                            {filteredLeads.length > 0 ? filteredLeads.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} onDeleteLead={onDeleteLead} />) : leadsData?.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} onDeleteLead={onDeleteLead} />)}
                         </tbody>
                     </table>
                     <div className=' flex items-center justify-end mt-2'>

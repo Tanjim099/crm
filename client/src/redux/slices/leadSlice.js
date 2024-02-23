@@ -71,6 +71,15 @@ export const filterByStatus = createAsyncThunk("/filter/bystatus", async (query)
     }
 })
 
+export const deleteLead = createAsyncThunk("/delete", async (lid) => {
+    try {
+        const res = axiosInstance.delete(`lead/delete/${lid}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
 const leadSlice = createSlice({
     name: "lead",
     initialState,

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Dropdown from './Dropdonw';
 
-function LeadTableBodyRow({ lead = [], sNo, handleSelectId }) {
+function LeadTableBodyRow({ lead = [], sNo, handleSelectId, onDeleteLead }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [status, setStatus] = useState(["Not Responed", "Pending", "Done"]);
@@ -86,7 +86,7 @@ function LeadTableBodyRow({ lead = [], sNo, handleSelectId }) {
                         Edit
                     </button>
                     <button
-
+                        onClick={() => onDeleteLead(lead._id)}
                         className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100 hover:text-gray-900"
                         role="menuitem"
                     >

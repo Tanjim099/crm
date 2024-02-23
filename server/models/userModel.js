@@ -42,6 +42,14 @@ const userShcema = new Schema({
     github: {
         type: String
     },
+    avatar: {
+        public_id: {
+            type: String,
+        },
+        secure_url: {
+            type: String
+        }
+    }
 }, { timestamps: true });
 
 const userModel = mongoose.model("Users", userShcema);
