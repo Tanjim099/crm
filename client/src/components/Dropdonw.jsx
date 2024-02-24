@@ -28,7 +28,7 @@ const Dropdown = ({ children }) => {
                 <div className="origin-top-right absolute right-0 mt-2 w-[100px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50" >
                     {isOpen ? (
                         <div
-                            className="py-1 inset-0 opacity-25"
+                            className="py-1 inset-0 opacity-85"
                             role="menu"
                             aria-orientation="vertical"
                             aria-labelledby="options-menu"

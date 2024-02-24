@@ -66,6 +66,7 @@ function Header() {
                 />
             </div>
             <div className='flex items-center mr-2 gap-2'>
+                <input type="checkbox" className="toggle" checked />
                 <Popover className="relative">
                     {({ open }) => (
                         <>

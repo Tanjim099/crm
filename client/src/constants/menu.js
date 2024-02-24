@@ -29,8 +29,8 @@ const menu = [
     },
     {
         id: 6,
-        label: 'Add Employee',
-        path: '/add-employee',
+        label: 'Task',
+        path: '/task',
         icon: HiOutlineUsers
     },
     {
@@ -68,13 +68,19 @@ export const managerMenu = [
         icon: HiOutlineCube,
     },
     {
-        id: 2,
+        id: 3,
         label: 'Employees',
         path: '/employees',
         icon: HiOutlineShoppingCart
     },
     {
-        id: 9,
+        id: 4,
+        label: 'Task',
+        path: '/task',
+        icon: HiOutlineUsers
+    },
+    {
+        id: 5,
         label: 'Leave',
         path: '/leave',
         icon: HiOutlineAnnotation
@@ -96,6 +102,12 @@ export const hrMenu = [
     },
     {
         id: 3,
+        label: 'Task',
+        path: '/task',
+        icon: HiOutlineUsers
+    },
+    {
+        id: 4,
         label: 'Leave',
         path: '/leave',
         icon: HiOutlineAnnotation
@@ -117,6 +129,12 @@ export const saleExecutiveMenu = [
     },
     {
         id: 3,
+        label: 'Task',
+        path: '/task',
+        icon: HiOutlineUsers
+    },
+    {
+        id: 4,
         label: 'Leave',
         path: '/leave',
         icon: HiOutlineAnnotation
@@ -132,6 +150,12 @@ export const internMenu = [
     },
     {
         id: 2,
+        label: 'Task',
+        path: '/task',
+        icon: HiOutlineUsers
+    },
+    {
+        id: 3,
         label: 'Leave',
         path: '/leave',
         icon: HiOutlineAnnotation

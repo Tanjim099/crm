@@ -6,6 +6,7 @@ import { updateLeadStatus } from '../redux/slices/leadSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Dropdown from './Dropdonw';
+import LeadUpdateModel from './LeadUpdateModel';
 
 function LeadTableBodyRow({ lead = [], sNo, handleSelectId, onDeleteLead }) {
     const dispatch = useDispatch();
@@ -15,7 +16,13 @@ function LeadTableBodyRow({ lead = [], sNo, handleSelectId, onDeleteLead }) {
         await dispatch(updateLeadStatus([lid, value]))
     }
 
-    const [toggle, setToggle] = useState(false);
+    const [updateLeadData, setUpdateLeadData] = useState(null);
+
+    function onEditLead(leadData) {
+        document.getElementById('lead_update_model').showModal()
+        console.log(leadData);
+        setUpdateLeadData(leadData)
+    }
     return (
         <tr className="border-b dark:border-neutral-500 even:bg-slate-100">
             <th className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
@@ -77,11 +84,13 @@ function LeadTableBodyRow({ lead = [], sNo, handleSelectId, onDeleteLead }) {
                         <FaRegTrashAlt />
                     </button>
                 </div> */}
+                <LeadUpdateModel updateLeadData={updateLeadData} />
                 <Dropdown>
                     <button
 
-                        className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100 hover:text-gray-900"
+                        className="block px-4 py-2 text-sm text-black w-full text-left hover:bg-gray-100 hover:text-gray-900 "
                         role="menuitem"
+                        onClick={() => onEditLead(lead)}
                     >
                         Edit
                     </button>

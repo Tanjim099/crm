@@ -14,6 +14,7 @@ import Denied from './pages/Denied'
 import Leave from './pages/Leave'
 import Dashboard from './pages/Dashboard'
 import Profile from './pages/Profile'
+import Task from './pages/Task'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Route path='/leave' element={<Leave />} />
       <Route path='/employees' element={<Employees />} />
       <Route path='/profile/:uid' element={<Profile />} />
+      <Route path='/task' element={<Task />} />
       {/* </Route> */}
 
       {/* <Route element={<RequireAuth allowedRoles={["Admin", "Hr"]} />}> */}
