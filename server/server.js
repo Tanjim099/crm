@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import leadRoutes from "./routes/leadRoutes.js";
 import leaveRoutes from "./routes/leaveRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/lead", leadRoutes);
 app.use("/api/v1/leave", leaveRoutes);
+app.use("/api/v1/task", taskRoutes);
 
 dbConnection();
 
