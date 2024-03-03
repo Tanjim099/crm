@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import RoleModel from './RoleModel';
 import { useDispatch } from 'react-redux';
 import { AdminUserUpdate, addUser } from '../redux/slices/userSlice';
+import "../styles/custom.css"
 
 function EmployeeModel({ data, flag, setFlag }) {
     // console.log(data);
@@ -16,7 +17,7 @@ function EmployeeModel({ data, flag, setFlag }) {
         password: "",
         salary: ""
     })
-    console.log(employeeData)
+    // console.log(employeeData)
     useEffect(() => {
         if (data) {
             console.log(data)
@@ -85,7 +86,7 @@ function EmployeeModel({ data, flag, setFlag }) {
     }
     return (
         <dialog id="my_modal_1" className="modal rounded-none">
-            <div className="modal-box rounded-none">
+            <div className="modal-box rounded-none containers">
                 <h3 className="font-bold text-lg text-center">{data ? "Update User" : "Add New Employee"}</h3>
                 <form onSubmit={onSubmitForm} className='flex flex-col gap-2'>
                     <div className='flex flex-col'>

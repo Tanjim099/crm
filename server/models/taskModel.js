@@ -11,10 +11,17 @@ const taskSchema = new Schema({
     task: {
         type: String
     },
-    toAssign: {
+    toAssigned: {
         type: mongoose.Types.ObjectId,
-        ref: "User"
-    }
+        ref: "Users"
+    },
+    taskList: [],
+    images: [
+        {
+            public_id: String,
+            secure_url: String
+        }
+    ]
 }, { timestamps: true });
 
 const taskModel = mongoose.model("Tasks", taskSchema);

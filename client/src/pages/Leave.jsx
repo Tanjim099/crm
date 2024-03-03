@@ -6,20 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllLeaves, getLeaveDataByUserID } from '../redux/slices/leaveSlice';
 import dateFormeter from '../helper/dateFormeter';
 import { MdOutlineModeEditOutline } from "react-icons/md";
+import useGetProfile from '../hooks/useGetProfile';
 
 
 function Leave() {
     const dispatch = useDispatch();
     const [leaveResponsedData, setLeaveResponsedData] = useState(["Pending", "Okay", "Not"]);
     //======================
-    const { authData } = useSelector((state) => state.auth);
-    const getAuthId = localStorage.getItem("authId");
-    const authId = JSON.parse(getAuthId)
-    // console.log(authData)
-
-    // const { userData } = useSelector((state) => state.user);
     const getUserId = localStorage.getItem("userId");
     const userId = JSON.parse(getUserId)
+    const userData = useGetProfile(userId);
     // console.log(userId)
     //====================
     const { leaveData } = useSelector((state) => state.leave);
@@ -31,13 +27,13 @@ function Leave() {
         await dispatch(getLeaveDataByUserID(userId));
     }
     useEffect(() => {
-        if (authId) {
+        if (userData?.role == "Admin") {
             fetchAllLeavesData();
         }
-        else if (userId) {
+        else {
             fetchLeaveDataByUserID()
         }
-    }, []);
+    }, [userData]);
     return (
         <Layout>
             <div className='bg-white p-4 flex flex-col gap-3 relative'>
@@ -55,52 +51,52 @@ function Leave() {
                                         <tr>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3  py-4 dark:border-neutral-500">
                                                 No
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 Name
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 Email
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 Phone Number
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 Subject
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 Message
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 From
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 To
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 Responsed
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="border-r px-6 py-4 dark:border-neutral-500">
+                                                className="border-r px-3 py-4 dark:border-neutral-500">
                                                 Actions
                                             </th>
                                         </tr>
@@ -109,19 +105,19 @@ function Leave() {
                                         {leaveData && leaveData.map((leave, i) => (
                                             <tr key={i} className="border-b dark:border-neutral-500">
                                                 <td
-                                                    className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500">
+                                                    className="whitespace-nowrap border-r px-3 py-4 font-medium dark:border-neutral-500">
                                                     {i + 1}
                                                 </td>
                                                 <td
-                                                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                    className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
                                                     {leave?.user?.name}
                                                 </td>
                                                 <td
-                                                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                    className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
                                                     {leave?.user?.email}
                                                 </td>
                                                 <td
-                                                    className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                    className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
                                                     {leave?.user?.phone}
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-2 py-4 dark:border-neutral-500">
@@ -138,14 +134,14 @@ function Leave() {
 
                                                     </textarea>
                                                 </td>
-                                                <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                <td className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
                                                     {leave?.from}
                                                 </td>
-                                                <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                <td className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
                                                     {leave?.to}
                                                 </td>
-                                                <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
-                                                    {authData && authData.role == "Admin" ? (
+                                                <td className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
+                                                    {userData && userData?.role == "Admin" ? (
                                                         <select name="" id="">
                                                             {leaveResponsedData.map((data, i) => (
                                                                 <option key={i} value={data}>{data}</option>
@@ -153,7 +149,7 @@ function Leave() {
                                                         </select>
                                                     ) : (leave?.responsed)}
                                                 </td>
-                                                <td className="whitespace-nowrap border-r px-6 py-4 dark:border-neutral-500">
+                                                <td className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
                                                     <div className='flex gap-2 items-center justify-center'>
                                                         <button className=' bg-green-500 px-2 py-1 text-white rounded-md'>
                                                             <MdOutlineModeEditOutline />

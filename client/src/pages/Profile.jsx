@@ -73,7 +73,7 @@ function Profile() {
             [name]: value
         }))
     }
-
+    console.log(updateData)
     async function onFormSubmit(e) {
         e.preventDefault();
         const data = new FormData();

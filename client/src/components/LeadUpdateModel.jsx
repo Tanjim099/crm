@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import "../styles/custom.css"
 
 function LeadUpdateModel({ updateLeadData }) {
     console.log(updateLeadData)
@@ -12,6 +13,7 @@ function LeadUpdateModel({ updateLeadData }) {
 
     useEffect(() => {
         if (updateLeadData) {
+            console.log(updateLeadData)
             setNewUpdateLeadData((prev) => ({
                 ...prev,
                 name: updateLeadData?.name,
@@ -22,7 +24,7 @@ function LeadUpdateModel({ updateLeadData }) {
             }))
         }
     }, [updateLeadData]);
-    // console.log(newUpdateLeadData);
+    console.log(newUpdateLeadData);
 
     function handleInpute(e) {
         const { name, value } = e.target;
@@ -33,7 +35,7 @@ function LeadUpdateModel({ updateLeadData }) {
     }
     return (
         <dialog id="lead_update_model" className="modal rounded-none">
-            <div className="modal-box rounded-none">
+            <div className="modal-box rounded-none containers">
                 <h3 className="font-bold text-lg">Update Lead</h3>
                 <form className='flex text-left flex-col gap-2'>
                     <div className='flex flex-col'>
@@ -43,7 +45,7 @@ function LeadUpdateModel({ updateLeadData }) {
                             name='name'
                             id='name'
                             placeholder='Enter Name...'
-                            className=' p-1.5 border border-black rounded-sm shadow-md'
+                            className=' p-2 border rounded-full shadow-sm outline-none'
                             value={newUpdateLeadData.name}
                             onChange={handleInpute}
                         />
@@ -55,7 +57,7 @@ function LeadUpdateModel({ updateLeadData }) {
                             name='email'
                             id='email'
                             placeholder='Enter email...'
-                            className=' p-1.5 border border-black rounded-sm shadow-md'
+                            className=' p-2 border rounded-full shadow-sm outline-none'
                             value={newUpdateLeadData.email}
                             onChange={handleInpute}
                         />
@@ -67,7 +69,7 @@ function LeadUpdateModel({ updateLeadData }) {
                             name='phone'
                             id='phone'
                             placeholder='Enter phone...'
-                            className=' p-1.5 border border-black rounded-sm shadow-md'
+                            className=' p-2 border rounded-full shadow-sm outline-none'
                             value={newUpdateLeadData.phone}
                             onChange={handleInpute}
                         />
@@ -79,7 +81,7 @@ function LeadUpdateModel({ updateLeadData }) {
                             name='projectName'
                             id='projectName'
                             placeholder='Enter project...'
-                            className=' p-1.5 border border-black rounded-sm shadow-md'
+                            className=' p-2 border rounded-full shadow-sm outline-none'
                             value={newUpdateLeadData.projectName}
                             onChange={handleInpute}
                         />
@@ -91,7 +93,7 @@ function LeadUpdateModel({ updateLeadData }) {
                             name='message'
                             id='message'
                             placeholder='Enter Name...'
-                            className=' p-1.5 border border-black rounded-sm shadow-md'
+                            className=' p-2 border rounded-md shadow-sm outline-none'
                             value={newUpdateLeadData.message}
                             onChange={handleInpute}
                         />

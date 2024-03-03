@@ -84,7 +84,6 @@ function LeadTableBodyRow({ lead = [], sNo, handleSelectId, onDeleteLead }) {
                         <FaRegTrashAlt />
                     </button>
                 </div> */}
-                <LeadUpdateModel updateLeadData={updateLeadData} />
                 <Dropdown>
                     <button
 
@@ -102,6 +101,7 @@ function LeadTableBodyRow({ lead = [], sNo, handleSelectId, onDeleteLead }) {
                         Delete
                     </button>
                 </Dropdown>
+                <LeadUpdateModel updateLeadData={updateLeadData} />
             </td>
         </tr>
     )

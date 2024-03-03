@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createLead, deleteLead, filterByProjectName, filterByStatus, getAllLeads, getLeadsByUserId, updateLead, updateLeadAssign, updateLeadStatus } from "../controllers/leadController.js";
+import { createLead, deleteLead, filterByDate, filterByProjectName, filterByStatus, getAllLeads, getLeadsByUserId, updateLead, updateLeadAssign, updateLeadStatus } from "../controllers/leadController.js";
 import { isAdmin, isLoggedIn } from "../middlewares/authMiddleware.js";
 import { isUserLoggedIn } from "../middlewares/userMiddleware.js";
 
@@ -13,5 +13,6 @@ leadRoutes.put("/update-assign", updateLeadAssign);
 leadRoutes.get("/get/user/:uid", getLeadsByUserId);
 leadRoutes.get("/filter/by-projectname", filterByProjectName);
 leadRoutes.get("/filter/by-status", filterByStatus);
+leadRoutes.get("/filter/by-date", filterByDate);
 leadRoutes.delete("/delete/:lid", isUserLoggedIn, deleteLead);
 export default leadRoutes;

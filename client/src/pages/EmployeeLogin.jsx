@@ -8,7 +8,7 @@ function EmployeeLogin() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isLoggedIn } = useSelector((state) => state.user);
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -24,14 +24,14 @@ function EmployeeLogin() {
     async function onFormSubmits(e) {
         e.preventDefault();
         const res = await dispatch(userLogin(loginData));
-        console.log(res);
+        // console.log(res);
         if (res.payload.success) {
             navigate("/")
             // await dispatch(getAuthProfile(res.payload.data._id))
         }
     }
     return (
-        <div className=' w-[100%] h-[100vh] bg-primary flex items-center justify-center'>
+        <div className=' w-[100%] h-[100vh] bg-teal-600 flex items-center justify-center'>
             <form action="" onSubmit={onFormSubmits} className=' w-[50%] h-[50vh] flex m-auto bg-white rounded-md'>
                 <div className='w-[50%] h-[100%]'>
                     <img className='w-[100%] h-[100%] rounded-tl-md rounded-bl-md' src={registerImg} alt="" />
@@ -56,7 +56,7 @@ function EmployeeLogin() {
                         onChange={handleInput}
                     />
                     <button
-                        className='w-[100%] p-3 '
+                        className='w-[100%] p-1.5 text-white bg-teal-600'
                         type='submit'
 
                     >

@@ -1,18 +1,36 @@
 import taskModel from "../models/taskModel.js";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
+import uploadCloudinary from "../utils/cloudinary.js"
 
 export const createTask = async (req, res, next) => {
-    const { title, description, task, toAssign } = req.body;
+    const { title, description, task, toAssigned, taskList } = req.body;
+    console.log(req.body);
+    // console.log(req.files)
     try {
         const newTask = await taskModel.create({
             title,
             description,
             task,
-            toAssign
+            toAssigned,
+            taskList
         });
-
-
+        if (req.files) {
+            try {
+                const images = req.files.images;
+                const imagesResult = await Promise.all(
+                    images.map((file) => uploadCloudinary(file.path))
+                )
+                newTask.images = newTask.images.concat(imagesResult.map((result) => ({
+                    public_id: result.public_id || "",
+                    secure_url: result.secure_url
+                })))
+            } catch (error) {
+                console.log("error0", error);
+                return next(new ApiError(501, "error.message"))
+            }
+        }
+        await newTask.save()
         res.status(201).json(
             new ApiResponse(200, newTask, "Task Created Successfully")
         )
@@ -25,7 +43,7 @@ export const createTask = async (req, res, next) => {
 
 export const getAllTasks = async (req, res, next) => {
     try {
-        const tasks = await taskModel.find();
+        const tasks = await taskModel.find().populate("toAssigned").sort({ createdAt: -1 });
         res.status(201).json(
             new ApiResponse(200, tasks, "Task Tasks data fetched successfully")
         )

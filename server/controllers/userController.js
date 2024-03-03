@@ -121,6 +121,8 @@ export const updateUserProfile = async (req, res, next) => {
         return next(new ApiError(501, "User Not Login"));
     };
     const { name, email, phone, linkedin, instagram, facebook, github } = req.body;
+    console.log(req.body)
+    console.log(req.file)
     try {
         const user = await userModel.findById(uid);
         if (!user) {

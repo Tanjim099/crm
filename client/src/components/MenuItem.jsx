@@ -3,10 +3,12 @@ import { NavLink } from 'react-router-dom'
 import MenuList from './MenuList';
 
 function MenuItem({ menuItem, isActive, setIsActive }) {
-    // console.log(isActive);
-    // to={menuItem.path}
+    function handleOnClick(e) {
+        e.preventDefault()
+        setIsActive(() => menuItem.id)
+    }
     return (
-        <li className='  px-2 py-1 rounded-sm text-sm' onClick={() => setIsActive(menuItem.id)} style={{ backgroundColor: isActive == menuItem.id ? "red" : "transparent" }}>
+        <li className='  px-2 py-1 rounded-sm text-sm' onClick={handleOnClick} style={{ backgroundColor: isActive == menuItem.id ? "red" : "transparent" }}>
             <NavLink
                 to={menuItem.path}
 
@@ -14,7 +16,6 @@ function MenuItem({ menuItem, isActive, setIsActive }) {
                 <menuItem.icon />
                 {menuItem.label}
             </NavLink>
-            {/* {menuItem && menuItem.children && menuItem.children.length > 0 ? <MenuList menuList={menuItem.children} /> : null} */}
         </li>
     )
 }

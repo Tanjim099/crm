@@ -26,6 +26,10 @@ const leadSchema = new Schema({
     assingTo: {
         type: mongoose.Types.ObjectId,
         ref: "Users",
+    },
+    date: {
+        type: Date,
+        default: () => new Date().toISOString().substring(0, 10)
     }
 }, { timestamps: true });
 

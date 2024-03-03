@@ -11,7 +11,7 @@ userRoutes.post("/employee-login", userLogin);
 userRoutes.get("/user-logout", userLogout);
 userRoutes.get("/get-all", getAllUsers);
 userRoutes.get("/profile/:userid", isUserLoggedIn, getUserProfile);
-userRoutes.put("/admin/update/:uid", isUserLoggedIn, isAdmin, adminuserUpdate);
+userRoutes.put("/admin/update/:uid", isUserLoggedIn, adminuserUpdate);
 userRoutes.put("/update/:uid", upload.single("avatar"), isUserLoggedIn, updateUserProfile);
 userRoutes.delete("/delete/:uid", isUserLoggedIn, userDelete);
 

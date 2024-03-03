@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ApplyLeave } from '../redux/slices/leaveSlice';
 import { useDispatch } from 'react-redux';
+import "../styles/custom.css"
 
 function LeaveModel() {
     const dispatch = useDispatch();
@@ -51,7 +52,7 @@ function LeaveModel() {
     }
     return (
         <dialog id="my_modal_1" className="modal rounded-none">
-            <div className="modal-box rounded-none">
+            <div className="modal-box rounded-none containers">
                 <h3 className="font-bold text-center text-lg">Apply New Leave</h3>
                 <form onSubmit={onSubmitForm} className='flex flex-col gap-2'>
                     <div className='flex flex-col'>

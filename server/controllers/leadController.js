@@ -117,28 +117,53 @@ export const filterByProjectName = async (req, res, next) => {
     const { projectName } = req.query;
     console.log(req.query)
     try {
-        const leads = await leadModel.find({ projectName });
+        const leads = await leadModel.find({ projectName }).populate("assingTo");
         res.status(201).json(
             new ApiResponse(200, leads, "Leads filter Successfully")
         )
     } catch (error) {
         console.log(error);
-        return next(new ApiError(501, "Failed to Updated leads Assign"))
+        return next(new ApiError(501, "Failed to filter"))
     }
 }
 
 export const filterByStatus = async (req, res, next) => {
     const { status } = req.query;
     try {
-        const leads = await leadModel.find({ status });
+        const leads = await leadModel.find({ status }).populate("assingTo");
         res.status(201).json(
             new ApiResponse(200, leads, "Leads filter Successfully")
         )
     } catch (error) {
         console.log(error);
-        return next(new ApiError(501, "Failed to Updated leads Assign"))
+        return next(new ApiError(501, "Failed to filter"))
     }
 };
+
+export const filterByDate = async (req, res, next) => {
+    const { date } = req.query;
+    console.log("createdAt", date)
+
+    try {
+        let filter = {};
+
+        // Parse createdAt string to Date object if applicable
+        if (date) {
+            filter.date = new Date(date);
+        }
+        console.log(filter)
+        // Query leads based on filter criteria
+        const leads = await leadModel.find(filter).populate("assingTo");
+        console.log(leads)
+        // Return filtered leads
+        res.status(200).json(
+            new ApiResponse(200, leads, "Leads filtered successfully")
+        );
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to filter leads"));
+    }
+}
 
 
 export const deleteLead = async (req, res, next) => {

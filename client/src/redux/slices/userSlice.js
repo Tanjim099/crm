@@ -5,8 +5,10 @@ const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') ? JSON.parse(localStorage.getItem('isLoggedIn')) : false,
     userId: localStorage.getItem('userId') ? JSON.parse(localStorage.getItem('userId')) : "",
     userData: [],
-    allUserData: []
+    allUserData: [],
+    role: ""
 };
+
 
 export const addUser = createAsyncThunk("/add", async (data) => {
     try {
@@ -39,7 +41,7 @@ export const userLogout = createAsyncThunk("/user-logout", async () => {
 
 
 export const getUserProfile = createAsyncThunk("/get-user-profile", async (userid) => {
-    console.log(userid);
+    // console.log(userid);
     try {
         const res = axiosInstance.get(`/user/profile/${userid}`);
         return (await res).data;
@@ -67,6 +69,7 @@ export const AdminUserUpdate = createAsyncThunk("/admin/update", async (data) =>
 });
 
 export const updateUserProfile = createAsyncThunk("/update-profile", async (data) => {
+    // console.log(data)
     try {
         const res = axiosInstance.put(`/user/update/${data[0]}`, data[1]);
         return (await res).data;
@@ -106,10 +109,9 @@ const userSlice = createSlice({
                 state.userId = localStorage.removeItem("userId") || null;
             })
             .addCase(getUserProfile.fulfilled, (state, action) => {
-                // console.log(action);
                 state.userData = action?.payload?.data;
+                state.role = action?.payload?.data?.role
             })
     }
 });
-
 export default userSlice.reducer;

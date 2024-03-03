@@ -3,50 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { getAuthProfile } from '../../redux/slices/authSlice';
 import { getUserProfile } from '../../redux/slices/userSlice';
+import useGetProfile from '../../hooks/useGetProfile';
 
 function RequireAuth({ allowedRoles }) {
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
-    const auth = useSelector((state) => state.auth);
-    const [authData, setAuthData] = useState(null)
-    console.log(authData)
-    const getAuthId = localStorage.getItem("authId");
-    const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
-    const authId = JSON.parse(getAuthId)
-    console.log("authId", authId)
-    const { userData } = useSelector((state) => state.user);
     const getUserId = localStorage.getItem("userId");
     const userId = JSON.parse(getUserId)
-    async function fetchAuthData() {
-        const res = await dispatch(getAuthProfile(authId))
-        const data = res?.payload?.data?.role;
-        console.log(data);
-        setAuthData(data);
-    }
+    // console.log(userId)
 
-    async function fetchUserData() {
-        await dispatch(getUserProfile(userId))
-    }
-
-    useEffect(() => {
-        fetchAuthData();
-        // if (authId) {
-        //     fetchAuthData();
-        // }
-        // else if (userId) {
-        //     console.log("yes1")
-        //     fetchUserData()
-        // }
-    }, [authId, userId])
-    console.log("authData.role", auth);
-    console.log("userData.role", userData.role)
-    console.log("allowedRoles", allowedRoles)
-    return isLoggedIn && allowedRoles.find((myRole) => {
-        // console.log(myRole == authData.role)
-        return myRole == "YEs"
-    }) ? (
+    const userData = useGetProfile(userId);
+    console.log(userData);
+    return userData && allowedRoles.find((myRole) => myRole == userData?.role) ? (
         <Outlet />
-    ) : isLoggedIn ? (<Navigate to="/denied" />) : (<Navigate to="/employee-login" />)
+    ) : userData ? (<Navigate to="/denied" />) : (<Navigate to="/user-login" />)
 }
-
 export default RequireAuth

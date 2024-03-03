@@ -71,6 +71,16 @@ export const filterByStatus = createAsyncThunk("/filter/bystatus", async (query)
     }
 })
 
+
+export const filterByDate = createAsyncThunk("/filter/bydate", async (query) => {
+    try {
+        const res = axiosInstance.get(`lead/filter/by-date?date=${query}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
 export const deleteLead = createAsyncThunk("/delete", async (lid) => {
     try {
         const res = axiosInstance.delete(`lead/delete/${lid}`);
@@ -87,16 +97,20 @@ const leadSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllLeads.fulfilled, (state, action) => {
-                console.log(action);
+                // console.log(action);
                 state.leads = action?.payload?.data;
             })
             .addCase(filterByProjectName.fulfilled, (state, action) => {
                 state.filteredLeads = action?.payload?.data;
-                console.log(action);
+                // console.log(action);
             })
             .addCase(filterByStatus.fulfilled, (state, action) => {
                 state.filteredLeads = action?.payload?.data;
-                console.log(action);
+                // console.log(action);
+            })
+            .addCase(filterByDate.fulfilled, (state, action) => {
+                state.filteredLeads = action?.payload?.data;
+                // console.log(action);
             })
     }
 })
