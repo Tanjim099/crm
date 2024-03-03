@@ -23,6 +23,24 @@ export const getAllTasks = createAsyncThunk("/get", async () => {
     }
 })
 
+export const getTasksByUserId = createAsyncThunk("/get-byuserid", async (uid) => {
+    try {
+        const res = axiosInstance.get(`task/get-byuserid/${uid}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const deleteTask = createAsyncThunk("/delete", async (tid) => {
+    try {
+        const res = axiosInstance.delete(`task/delete/${tid}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 const taskSlice = createSlice({
     name: "task",
     initialState,
@@ -30,6 +48,9 @@ const taskSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllTasks.fulfilled, (state, action) => {
+                state.taskData = action?.payload?.data;
+            })
+            .addCase(getTasksByUserId.fulfilled, (state, action) => {
                 state.taskData = action?.payload?.data;
             })
     }

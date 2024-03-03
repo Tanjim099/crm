@@ -6,7 +6,7 @@ function PrivateRoutes({ allowedRoles }) {
     console.log(allowedRoles)
     const getUserId = localStorage.getItem("userId");
     const userId = JSON.parse(getUserId);
-    const userData = useGetProfile(userId);
+    const { userData, loading, error } = useGetProfile(userId);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

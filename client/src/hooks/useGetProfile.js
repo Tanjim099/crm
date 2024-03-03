@@ -1,24 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getAuthProfile } from '../redux/slices/authSlice';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { getUserProfile } from '../redux/slices/userSlice';
 
 function useGetProfile(id) {
-    // console.log(id)
     const dispatch = useDispatch();
-    const [data, setData] = useState(null);
-    const userDatas = useSelector((state) => state.user);
-    // console.log(userDatas)
-    async function fetchAuthData() {
-        const res = await dispatch(getUserProfile(id))
-        setData(res?.payload?.data)
-        // console.log(res)
+    const [userData, setUserData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    async function fetchUserData() {
+        setLoading(true);
+        try {
+            const res = await dispatch(getUserProfile(id));
+            setUserData(res?.payload?.data);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
-        fetchAuthData()
-    }, [id])
-    return data;
+        if (id) {
+            fetchUserData();
+        }
+    }, [dispatch, id]);
+
+    return { userData, loading, error };
 }
 
-export default useGetProfile
+export default useGetProfile;

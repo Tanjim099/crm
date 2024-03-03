@@ -15,7 +15,7 @@ function Leave() {
     //======================
     const getUserId = localStorage.getItem("userId");
     const userId = JSON.parse(getUserId)
-    const userData = useGetProfile(userId);
+    const { userData } = useGetProfile(userId);
     // console.log(userId)
     //====================
     const { leaveData } = useSelector((state) => state.leave);
