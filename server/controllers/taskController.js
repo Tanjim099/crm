@@ -45,10 +45,26 @@ export const getAllTasks = async (req, res, next) => {
     try {
         const tasks = await taskModel.find().populate("toAssigned").sort({ createdAt: -1 });
         res.status(201).json(
-            new ApiResponse(200, tasks, "Task Tasks data fetched successfully")
+            new ApiResponse(200, tasks, "Tasks data fetched successfully")
         )
     } catch (error) {
         console.log(error);
         return next(new ApiError(501, "Failed to fetched tasks data"))
+    }
+}
+
+export const deleteTask = async (req, res, next) => {
+    const { tid } = req.params;
+    if (!tid) {
+        return next(new ApiError(401, "Something went wrong please try again"));
+    }
+    try {
+        await taskModel.findByIdAndDelete(tid);
+        res.status(201).json(
+            new ApiResponse(200, "Task deleted successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to delete task"))
     }
 }
