@@ -47,7 +47,7 @@ export const getLeaveDataByUserID = async (req, res, next) => {
         return next(new ApiError(400, "Unauthenticated, please login"));
     }
     try {
-        const leaves = await leaveModel.find({ "user": uid }).populate("user").sort({ createdAt: -1 });
+        const leaves = await leaveModel.find({ "user": uid }).populate("user").sort({ createdAt: -1 })
         if (!leaves) {
             return next(new ApiError(402, "Leaves is not available"));
         };
@@ -59,3 +59,25 @@ export const getLeaveDataByUserID = async (req, res, next) => {
         return next(new ApiError(501, "Failed to fetched leaves"));
     }
 };
+
+export const updateLeave = async (req, res, next) => {
+    const { lid } = req.params;
+    if (!lid) {
+        return next(new ApiError(400, "Something went wrong please try again"));
+    }
+    const { user, subject, message, from, to } = req.body;
+    const leave = await leaveModel.findById(lid);
+    if (!leave) {
+        return next(new ApiError(400, "Something went wrong please try again"));
+    }
+    const updatedLeave = await leaveModel.findByIdAndUpdate(lid, {
+        user: user || leave.user,
+        subject: subject || leave.subject,
+        message: message || leave.message,
+        from: from || leave.from,
+        to: to || leave.to
+    }, { new: true });
+    res.status(201).json(
+        new ApiResponse(200, updatedLeave, "Leaves updated Successfully")
+    )
+}

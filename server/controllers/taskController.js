@@ -53,6 +53,22 @@ export const getAllTasks = async (req, res, next) => {
     }
 }
 
+export const getTaskByToAssignedId = async (req, res, next) => {
+    const { uid } = req.params;
+    if (!uid) {
+        return next(new ApiError(401, "You haven't any task"));
+    }
+    try {
+        const tasks = await taskModel.find({ toAssigned: uid }).populate("toAssigned")
+        res.status(201).json(
+            new ApiResponse(200, tasks, "Tasks fetched successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to fetched tasks"))
+    }
+}
+
 export const deleteTask = async (req, res, next) => {
     const { tid } = req.params;
     if (!tid) {
