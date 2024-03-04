@@ -30,6 +30,7 @@ function App() {
       <Route path='/admin-login' element={<Login />} />
       <Route path='/user-login' element={<EmployeeLogin />} />
       <Route path='/denied' element={<Denied />} />
+      <Route path='/inquiry' element={<LeadForm />} />
 
       <Route path="/" element={<PrivateRoutes allowedRoles={["Admin", "Manager", "Sales Executive", "Hr"]} />}>
         <Route index element={<Dashboard />} />

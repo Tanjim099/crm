@@ -33,6 +33,15 @@ export const getLeaveDataByUserID = createAsyncThunk("/get/by-userid", async (ui
     }
 })
 
+export const updateLeave = createAsyncThunk("/update", async (data) => {
+    try {
+        const res = axiosInstance.put(`leave/update/${data[0]}`, data[1]);
+        return (await res).data;
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 const leaveSlice = createSlice({
     name: "leave",
     initialState,

@@ -7,6 +7,7 @@ import { getAllLeaves, getLeaveDataByUserID } from '../redux/slices/leaveSlice';
 import dateFormeter from '../helper/dateFormeter';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import useGetProfile from '../hooks/useGetProfile';
+import Dropdown from '../components/Dropdonw';
 
 
 function Leave() {
@@ -16,6 +17,8 @@ function Leave() {
     const getUserId = localStorage.getItem("userId");
     const userId = JSON.parse(getUserId)
     const { userData } = useGetProfile(userId);
+    const [leaveUpdateData, setLeaveUpdateData] = useState(null);
+    const [isLoad, setIsLoad] = useState(false);
     // console.log(userId)
     //====================
     const { leaveData } = useSelector((state) => state.leave);
@@ -27,19 +30,31 @@ function Leave() {
         await dispatch(getLeaveDataByUserID(userId));
     }
     useEffect(() => {
-        if (userData?.role == "Admin") {
+        if (userData?.role === "Admin") {
             fetchAllLeavesData();
         }
         else {
             fetchLeaveDataByUserID()
         }
-    }, [userData]);
+    }, [userData, isLoad]);
+
+    function handleAddNewLeave() {
+        document.getElementById('my_modal_1').showModal();
+        setLeaveUpdateData(null);
+    }
+    async function onLeaveEdit(data) {
+        document.getElementById('my_modal_1').showModal();
+        setLeaveUpdateData(data);
+    }
+    async function onLeaveDelete(id) {
+
+    }
     return (
         <Layout>
             <div className='bg-white p-4 flex flex-col gap-3 relative'>
                 <div>
-                    <button className=' bg-green-800 text-white px-4 py-1 flex items-center gap-1' onClick={() => document.getElementById('my_modal_1').showModal()}><FaPlus />Apply New Leave</button>
-                    <LeaveModel />
+                    <button className=' bg-green-800 text-white px-4 py-1 flex items-center gap-1' onClick={handleAddNewLeave}><FaPlus />Apply New Leave</button>
+                    <LeaveModel leaveUpdateData={leaveUpdateData} isLoad={isLoad} setIsLoad={setIsLoad} />
                 </div>
                 <div className="flex flex-col">
                     <div className="overflow-x-auto">
@@ -150,14 +165,23 @@ function Leave() {
                                                     ) : (leave?.responsed)}
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
-                                                    <div className='flex gap-2 items-center justify-center'>
-                                                        <button className=' bg-green-500 px-2 py-1 text-white rounded-md'>
-                                                            <MdOutlineModeEditOutline />
+                                                    <Dropdown>
+                                                        <button
+
+                                                            className="block px-4 py-2 text-sm text-black w-full text-left hover:bg-gray-100 hover:text-gray-900 "
+                                                            role="menuitem"
+                                                            onClick={() => onLeaveEdit(leave)}
+                                                        >
+                                                            Edit
                                                         </button>
-                                                        <button className=' bg-red-500 px-2 py-1 text-white rounded-md'>
-                                                            <FaRegTrashAlt />
+                                                        <button
+                                                            onClick={() => onLeaveDelete()}
+                                                            className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100 hover:text-gray-900"
+                                                            role="menuitem"
+                                                        >
+                                                            Delete
                                                         </button>
-                                                    </div>
+                                                    </Dropdown>
                                                 </td>
                                             </tr>
                                         ))}

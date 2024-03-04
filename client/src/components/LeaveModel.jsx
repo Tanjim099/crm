@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { ApplyLeave } from '../redux/slices/leaveSlice';
+import { ApplyLeave, updateLeave } from '../redux/slices/leaveSlice';
 import { useDispatch } from 'react-redux';
 import "../styles/custom.css"
 
-function LeaveModel() {
+function LeaveModel({ leaveUpdateData, isLoad, setIsLoad }) {
+    console.log(leaveUpdateData)
     const dispatch = useDispatch();
     const getAuthId = localStorage.getItem("authId");
     const authId = JSON.parse(getAuthId)
@@ -29,6 +30,28 @@ function LeaveModel() {
         to: ""
     });
 
+    useEffect(() => {
+        if (leaveUpdateData) {
+            setLeaveData((prev) => ({
+                ...prev,
+                user: uId,
+                subject: leaveUpdateData?.subject,
+                message: leaveUpdateData?.message,
+                from: leaveUpdateData?.from,
+                to: leaveUpdateData?.to
+            }))
+        }
+        else {
+            setLeaveData({
+                user: uId,
+                subject: "",
+                message: "",
+                from: "",
+                to: ""
+            });
+        }
+    }, [leaveUpdateData])
+
     function handleChange(e) {
         const { name, value } = e.target;
         setLeaveData((prev) => ({
@@ -39,15 +62,25 @@ function LeaveModel() {
     }
     async function onSubmitForm(e) {
         e.preventDefault();
-        const res = await dispatch(ApplyLeave(leaveData));
-        if (res?.payload?.success) {
-            setLeaveData({
-                user: uId,
-                subject: "",
-                message: "",
-                from: "",
-                to: ""
-            })
+        if (leaveUpdateData) {
+            const res = await dispatch(updateLeave([leaveUpdateData._id, leaveData]));
+            if (res?.payload?.success) {
+                setIsLoad(!isLoad)
+            }
+            console.log(res)
+        }
+        else {
+            const res = await dispatch(ApplyLeave(leaveData));
+            if (res?.payload?.success) {
+                setIsLoad(!isLoad)
+                setLeaveData({
+                    user: uId,
+                    subject: "",
+                    message: "",
+                    from: "",
+                    to: ""
+                })
+            }
         }
     }
     return (
@@ -104,7 +137,6 @@ function LeaveModel() {
                             className=' p-1.5 border border-black rounded-sm shadow-md'
                             onChange={handleChange}
                             value={leaveData.message}
-                            required
                         />
                     </div>
                     <div className=' flex items-center justify-between'>
