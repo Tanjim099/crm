@@ -42,6 +42,15 @@ export const updateLeave = createAsyncThunk("/update", async (data) => {
     }
 })
 
+export const deleteLeave = createAsyncThunk("/delete", async (lid) => {
+    try {
+        const res = axiosInstance.delete(`leave/delete/${lid}`,);
+        return (await res).data;
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 const leaveSlice = createSlice({
     name: "leave",
     initialState,

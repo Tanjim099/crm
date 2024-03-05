@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 import { FaRegTrashAlt, FaPlus } from "react-icons/fa";
 import LeaveModel from '../components/LeaveModel';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllLeaves, getLeaveDataByUserID } from '../redux/slices/leaveSlice';
+import { deleteLeave, getAllLeaves, getLeaveDataByUserID } from '../redux/slices/leaveSlice';
 import dateFormeter from '../helper/dateFormeter';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import useGetProfile from '../hooks/useGetProfile';
@@ -47,7 +47,13 @@ function Leave() {
         setLeaveUpdateData(data);
     }
     async function onLeaveDelete(id) {
-
+        if (window.confirm("Are you sure you want to delete the leave ?")) {
+            const res = await dispatch(deleteLeave(id));
+            if (res?.payload?.success) {
+                setIsLoad(!isLoad);
+            }
+        }
+        // console.log(res)
     }
     return (
         <Layout>
@@ -175,7 +181,7 @@ function Leave() {
                                                             Edit
                                                         </button>
                                                         <button
-                                                            onClick={() => onLeaveDelete()}
+                                                            onClick={() => onLeaveDelete(leave._id)}
                                                             className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100 hover:text-gray-900"
                                                             role="menuitem"
                                                         >
