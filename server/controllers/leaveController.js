@@ -81,3 +81,14 @@ export const updateLeave = async (req, res, next) => {
         new ApiResponse(200, updatedLeave, "Leaves updated Successfully")
     )
 }
+
+export const deleteLeave = async (req, res, next) => {
+    const { lid } = req.params;
+    if (!lid) {
+        return next(new ApiError(400, "Something went wrong please try again"));
+    }
+    await leaveModel.findByIdAndDelete(lid);
+    res.status(201).json(
+        new ApiResponse(200, "Leaves deleted Successfully")
+    )
+}
