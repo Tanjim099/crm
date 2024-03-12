@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-const reminderSchema = new mongoose({
+import mongoose, { Schema } from "mongoose";
+const reminderSchema = new Schema({
     name: {
         type: String,
         required: true

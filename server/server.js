@@ -9,6 +9,7 @@ import userRoutes from "./routes/userRoutes.js";
 import leadRoutes from "./routes/leadRoutes.js";
 import leaveRoutes from "./routes/leaveRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import remiderRoutes from "./routes/remiderRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -38,6 +39,7 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/lead", leadRoutes);
 app.use("/api/v1/leave", leaveRoutes);
 app.use("/api/v1/task", taskRoutes);
+app.use("/api/v1/reminder", remiderRoutes);
 
 dbConnection();
 

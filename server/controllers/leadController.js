@@ -42,6 +42,22 @@ export const getAllLeads = async (req, res, next) => {
 }
 
 
+export const getLead = async (req, res, next) => {
+    const { lid } = req.params;
+    if (!lid) {
+        return next(new ApiError(401, "Lead not found"));
+    }
+    try {
+        const lead = await leadModel.findById(lid)
+        res.status(201).json(
+            new ApiResponse(200, lead, "Fetched Lead Successfully")
+        )
+    } catch (error) {
+        console.log(error);
+        return next(new ApiError(501, "Failed to fetched lead"))
+    }
+}
+
 export const getLeadsByUserId = async (req, res, next) => {
     const { uid } = req.params;
     if (!uid) {
@@ -61,18 +77,45 @@ export const getLeadsByUserId = async (req, res, next) => {
     }
 }
 
+// export const updateLead = async (req, res, next) => {
+//     const { lid } = req.params;
+//     const { status, assingTo } = req.body;
+
+//     try {
+//         const lead = await leadModel.findByIdAndUpdate(lid, {
+//             status,
+//             assingTo
+//         }, { new: true });
+
+//         res.status(201).json(
+//             new ApiResponse(200, lead, "Leads Updated Successfully")
+//         )
+//     } catch (error) {
+//         console.log(error);
+//         return next(new ApiError(501, "Failed to Updated leads"))
+//     }
+// }
+
 export const updateLead = async (req, res, next) => {
     const { lid } = req.params;
-    const { status, assingTo } = req.body;
+    const { name, email, phone, projectName, message } = req.body;
 
     try {
-        const lead = await leadModel.findByIdAndUpdate(lid, {
-            status,
-            assingTo
+
+        const lead = await leadModel.findById(lid);
+        if (!lead) {
+            return next(new ApiError(401, "Lead not found"));
+        }
+        const updatedlead = await leadModel.findByIdAndUpdate(lid, {
+            name: name || lead.name,
+            email: email || lead.email,
+            phone: phone || lead.phone,
+            projectName: projectName || lead.projectName,
+            $push: { message: message } // Using $push to add the new message to the array
         }, { new: true });
 
         res.status(201).json(
-            new ApiResponse(200, lead, "Leads Updated Successfully")
+            new ApiResponse(200, updatedlead, "Leads Updated Successfully")
         )
     } catch (error) {
         console.log(error);

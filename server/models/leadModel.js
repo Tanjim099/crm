@@ -30,6 +30,9 @@ const leadSchema = new Schema({
     date: {
         type: Date,
         default: () => new Date().toISOString().substring(0, 10)
+    },
+    message: {
+        type: []
     }
 }, { timestamps: true });
 
