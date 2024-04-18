@@ -41,14 +41,20 @@ const menu = [
     },
     {
         id: 8,
-        label: 'Messages',
-        path: '/messages',
+        label: 'Reminder',
+        path: '/reminder',
         icon: HiOutlineAnnotation
     },
     {
         id: 9,
         label: 'Leave',
         path: '/leave',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 10,
+        label: 'Booked',
+        path: '/booked',
         icon: HiOutlineAnnotation
     }
 ]
@@ -81,8 +87,20 @@ export const managerMenu = [
     },
     {
         id: 5,
+        label: 'Reminder',
+        path: '/reminder',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 6,
         label: 'Leave',
         path: '/leave',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 7,
+        label: 'Booked',
+        path: '/booked',
         icon: HiOutlineAnnotation
     }
 ]
@@ -108,8 +126,20 @@ export const hrMenu = [
     },
     {
         id: 4,
+        label: 'Reminder',
+        path: '/reminder',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 5,
         label: 'Leave',
         path: '/leave',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 6,
+        label: 'Booked',
+        path: '/booked',
         icon: HiOutlineAnnotation
     }
 ]
@@ -135,8 +165,20 @@ export const saleExecutiveMenu = [
     },
     {
         id: 4,
+        label: 'Reminder',
+        path: '/reminder',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 5,
         label: 'Leave',
         path: '/leave',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 6,
+        label: 'Booked',
+        path: '/booked',
         icon: HiOutlineAnnotation
     }
 ]
@@ -156,8 +198,20 @@ export const internMenu = [
     },
     {
         id: 3,
+        label: 'Reminder',
+        path: '/reminder',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 4,
         label: 'Leave',
         path: '/leave',
+        icon: HiOutlineAnnotation
+    },
+    {
+        id: 5,
+        label: 'Booked',
+        path: '/booked',
         icon: HiOutlineAnnotation
     }
 ]

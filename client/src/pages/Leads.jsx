@@ -41,7 +41,6 @@ function Leads() {
     //==========================
     const { leads } = useSelector((state) => state.lead);
     async function fetchLeadData() {
-        setIsLoading(true)
         const res = await dispatch(getAllLeads({ page: page, limit: limit }));
         // console.log(res)
         setLeadsData(res?.payload?.data);
@@ -73,7 +72,7 @@ function Leads() {
         else {
             fetchLeadByUserId()
         }
-    }, [page]);
+    }, [page, forReload]);
 
     // async function handleChange(lid, value) {
     //     await dispatch(updateLeadStatus([lid, value]))
@@ -116,7 +115,7 @@ function Leads() {
     //pagination end
 
     //lead filter by project name start
-    const projectNames = ["select", ...new Set(leadsData?.map(item => item.projectName))];
+    const projectNames = ["Select", ...new Set(leadsData?.map(item => item.projectName))];
     // const projectNamesByUserId = ["select", ...new Set(leads.map(item => item.projectName))];
     const [currProjectName, setCurrentProjectName] = useState("");
     function handleFilterByProjectName(name) {
@@ -125,7 +124,7 @@ function Leads() {
     }
 
     async function onFilterLeadByProjectName() {
-        if (currProjectName !== "Select" && currProjectName !== "") {
+        if (currProjectName !== "select" && currProjectName !== "") {
             const res = await dispatch(filterByProjectName(currProjectName));
             // console.log(res);
         }
@@ -139,10 +138,16 @@ function Leads() {
     const [filterDate, setFilterDate] = useState("");
     const [currentStatus, setCurrentStatus] = useState("");
     async function onFilterByStatus() {
-        if (currentStatus !== "Select" && currentStatus !== "") {
+        if (currentStatus !== "select" && currentStatus !== "") {
             const res = await dispatch(filterByStatus(currentStatus))
             // console.log(res);
 
+        }
+        else if (userData && userData?.role == "Admin") {
+            fetchLeadData();
+        }
+        else {
+            fetchLeadByUserId()
         }
     }
 
@@ -252,7 +257,7 @@ function Leads() {
                             </thead>
                             <tbody className="border-b font-medium bg-white">
                                 {/* row 1 */}
-                                {filteredLeads.length > 0 ? filteredLeads?.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} onDeleteLead={onDeleteLead} />) : leadsData?.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} onDeleteLead={onDeleteLead} />)}
+                                {filteredLeads.length > 0 ? filteredLeads?.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} onDeleteLead={onDeleteLead} forReload={forReload} setForReload={setForReload} />) : leadsData?.map((lead, i) => <LeadTableBodyRow lead={lead} key={i} sNo={i} handleSelectId={handleSelectId} onDeleteLead={onDeleteLead} forReload={forReload} setForReload={setForReload} />)}
                             </tbody>
                         </table>
                         <div className=' flex items-center justify-end mt-2'>

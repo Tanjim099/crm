@@ -3,11 +3,12 @@ import Layout from '../components/Layout'
 import { FaRegTrashAlt, FaPlus } from "react-icons/fa";
 import LeaveModel from '../components/LeaveModel';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteLeave, getAllLeaves, getLeaveDataByUserID } from '../redux/slices/leaveSlice';
+import { deleteLeave, getAllLeaves, getLeaveDataByUserID, updateLeaveResponse } from '../redux/slices/leaveSlice';
 import dateFormeter from '../helper/dateFormeter';
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import useGetProfile from '../hooks/useGetProfile';
 import Dropdown from '../components/Dropdonw';
+import { json } from 'react-router-dom';
 
 
 function Leave() {
@@ -54,6 +55,15 @@ function Leave() {
             }
         }
         // console.log(res)
+    }
+
+    async function handleResponseChange(id, data) {
+        // const data = JSON.parse(e.target.value)
+        const res = await dispatch(updateLeaveResponse([id, data]));
+        console.log(res);
+        // console.log(JSON.parse(e.target.value));
+        // console.log(data.leaveId);
+        // console.log(data.responseData);
     }
     return (
         <Layout>
@@ -163,7 +173,7 @@ function Leave() {
                                                 </td>
                                                 <td className="whitespace-nowrap border-r px-3 py-4 dark:border-neutral-500">
                                                     {userData && userData?.role == "Admin" ? (
-                                                        <select name="" id="">
+                                                        <select name="" id="" defaultValue={leave.responsed} onChange={(e) => handleResponseChange(leave._id, e.target.value)}>
                                                             {leaveResponsedData.map((data, i) => (
                                                                 <option key={i} value={data}>{data}</option>
                                                             ))}

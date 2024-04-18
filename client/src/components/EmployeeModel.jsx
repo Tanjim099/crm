@@ -20,7 +20,7 @@ function EmployeeModel({ data, flag, setFlag }) {
     // console.log(employeeData)
     useEffect(() => {
         if (data) {
-            console.log(data)
+            // console.log(data)
             setEmployeeData((prev) => ({
                 ...prev,
                 name: data?.name,
@@ -55,6 +55,7 @@ function EmployeeModel({ data, flag, setFlag }) {
             setRoleData(["Admin", "Hr", "Manager", "Team Leader", "Sales Executive", "Intern"]);
         }
     }, [data])
+    console.log(employeeData)
     function handleInpute(e) {
         const { name, value } = e.target;
         setEmployeeData((prev) => ({

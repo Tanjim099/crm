@@ -25,7 +25,7 @@ function EmployeeLogin() {
         e.preventDefault();
         const res = await dispatch(userLogin(loginData));
         // console.log(res);
-        if (res.payload.success) {
+        if (res?.payload?.success) {
             navigate("/")
             // await dispatch(getAuthProfile(res.payload.data._id))
         }

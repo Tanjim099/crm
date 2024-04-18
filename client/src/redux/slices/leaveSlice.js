@@ -42,6 +42,16 @@ export const updateLeave = createAsyncThunk("/update", async (data) => {
     }
 })
 
+export const updateLeaveResponse = createAsyncThunk("/update-response", async (data) => {
+    try {
+        // console.log(data)
+        const res = axiosInstance.put(`leave/update-response/${data[0]}`, { responsed: data[1] });
+        return (await res).data;
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 export const deleteLeave = createAsyncThunk("/delete", async (lid) => {
     try {
         const res = axiosInstance.delete(`leave/delete/${lid}`,);

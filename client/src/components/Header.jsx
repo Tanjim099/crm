@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authLogout, getAuthProfile } from '../redux/slices/authSlice';
 import { getUserProfile, userLogout } from '../redux/slices/userSlice';
+import axios from 'axios';
 
 function Header() {
     const navigate = useNavigate()
@@ -53,6 +54,59 @@ function Header() {
             }
         }
     }
+
+    // const [datas, setDatas] = useState([]);
+
+    // async function fetchData() {
+    //     const res = await axios.get("http://localhost:8080/api/v1/reminder");
+    //     if (res?.data?.success) {
+    //         setDatas(res?.data?.data)
+    //     }
+    //     console.log(res?.data?.data)
+    // }
+    // useEffect(() => {
+    //     fetchData()
+    // }, []);
+    // console.log(datas)
+    const [reminderTime, setReminderTime] = useState('');
+    const [alertShown, setAlertShown] = useState(false);
+    const [reminderedTime, setReminderedTime] = useState("");
+
+    const handleReminderChange = async (e) => {
+        setReminderTime(e.target.value);
+        const datas = {
+            name: "tanjim",
+            email: "t@gmail.in",
+            phone: "9988007766",
+            message: "call me later after 20 min",
+            reminderTime: e.target.value,
+            user: "65e8b7158a496ade20f26e71"
+
+        }
+        const res = await axios.post("http://localhost:8080/api/v1/reminder/add", datas);
+        console.log(res?.data?.data);
+        setReminderedTime(res?.data?.data?.reminderTime);
+    };
+    const setReminder = () => {
+        console.log(reminderedTime)
+        const selectedTime = new Date(reminderedTime).getTime();
+        const currentTime = new Date().getTime();
+
+        if (selectedTime > currentTime) {
+            const timeUntilReminder = selectedTime - currentTime;
+            setTimeout(() => {
+                setAlertShown(true);
+            }, timeUntilReminder);
+        }
+    };
+
+    function moveToReminder() {
+        if (window.confirm("Are you sure to move Remider Page becuase time is over")) {
+            navigate("/reminder")
+        }
+    }
+
+    console.log(reminderTime)
     return (
         <div className='bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between'>
             <div className=' relative'>
@@ -147,13 +201,13 @@ function Header() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <div
-                                        onClick={() => navigate(`/profile/${authData && authData.name ? authData._id : userData._id}`)}
+                                        onClick={() => navigate(`/profile/${userData && userData._id}`)}
                                         className={classNames(
                                             active && 'bg-gray-100',
                                             'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'
                                         )}
                                     >
-                                        {authData && authData.name ? authData.name : userData.name}
+                                        {userData && userData.name}
                                     </div>
                                 )}
                             </Menu.Item>
@@ -185,6 +239,17 @@ function Header() {
                         </Menu.Items>
                     </Transition>
                 </Menu>
+                {/* -------------- */}
+                <div>
+                    <input
+                        type="datetime-local"
+                        value={reminderTime}
+                        onChange={handleReminderChange}
+                    />
+                    <button onClick={setReminder}>Set Reminder</button>
+                    {alertShown && moveToReminder()}
+                </div>
+                {/* ----------------- */}
             </div>
         </div>
     )

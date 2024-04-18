@@ -3,12 +3,22 @@ import axiosInstance from "../../helper/axiosInstance";
 
 const initialState = {
     leads: [],
+    lead: [],
     filteredLeads: []
 };
 
 export const getAllLeads = createAsyncThunk("/get-all/leads", async (data) => {
     try {
         const res = axiosInstance.get(`lead/get-all?page=${data.page}&limit=${data.limit}`);
+        return (await res).data;
+    } catch (error) {
+        console.log(error.message)
+    }
+})
+
+export const getLead = createAsyncThunk("/get-leads", async (lid) => {
+    try {
+        const res = axiosInstance.get(`lead/get/${lid}`);
         return (await res).data;
     } catch (error) {
         console.log(error.message)
@@ -27,7 +37,7 @@ export const getLeadsByUserId = createAsyncThunk("/get-leads/byuserid", async (u
 
 export const updateLead = createAsyncThunk("/update", async (data) => {
     try {
-        const res = axiosInstance.get(`lead/update/${data[0]}`, data[1]);
+        const res = axiosInstance.put(`lead/update/${data[0]}`, data[1]);
         return (await res).data;
     } catch (error) {
         console.log(error.message)
@@ -99,6 +109,10 @@ const leadSlice = createSlice({
             .addCase(getAllLeads.fulfilled, (state, action) => {
                 // console.log(action);
                 state.leads = action?.payload?.data;
+            })
+            .addCase(getLead.fulfilled, (state, action) => {
+                // console.log(action);
+                state.lead = action?.payload?.data;
             })
             .addCase(filterByProjectName.fulfilled, (state, action) => {
                 state.filteredLeads = action?.payload?.data;

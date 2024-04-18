@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -17,6 +17,7 @@ import Task from './pages/Task'
 import LeadForm from './pages/LeadForm'
 import RequireAuth from './components/auth/RequireAuth'
 import PrivateRoutes from './components/auth/PrivateRoutes'
+import Reminder from './pages/Reminder'
 <Route
   path="/"
   element={<PrivateRoutes allowedRoles={["Admin", "Manager", "Hr"]} />}
@@ -31,6 +32,7 @@ function App() {
       <Route path='/user-login' element={<EmployeeLogin />} />
       <Route path='/denied' element={<Denied />} />
       <Route path='/inquiry' element={<LeadForm />} />
+      <Route path='/reminder' element={<Reminder />} />
 
       <Route path="/" element={<PrivateRoutes allowedRoles={["Admin", "Manager", "Sales Executive", "Hr"]} />}>
         <Route index element={<Dashboard />} />
@@ -46,6 +48,10 @@ function App() {
       </Route>
       <Route path="/task" element={<PrivateRoutes allowedRoles={["Admin", "Manager", "Hr", "Sales Executive", "Intern"]} />}>
         <Route index element={<Task />} />
+      </Route>
+
+      <Route path="/profile/:uid" element={<PrivateRoutes allowedRoles={["Admin", "Manager", "Hr", "Sales Executive", "Intern"]} />}>
+        <Route index element={<Profile />} />
       </Route>
 
       {/* <Route path='/profile/:uid' element={<Profile />} />
